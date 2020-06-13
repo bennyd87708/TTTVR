@@ -1,0 +1,23 @@
+[h1] About [/h1]
+Pavlov VR is great, but what if your friends don't all have VR?
+This is currently a simple client-sided addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI additions and soon through weapon fixes.
+
+[h1] Usage [/h1]
+Make sure you and the server both have VRMod, and once you are in-game, type vrmod_start into console. To return to normal, type vrmod_exit (you should probably reconnect just in case). If you want a HUD for your health, timer, and role during the round, check out j2b2's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]VRMod HUD addon[/url].
+
+[h1] Features [/h1]
+[list]
+    [*]Client UI on the right hand to indicate player's role at the start of the round
+[/list]
+It's certainly not much at the moment but I wanted to get everything set up on the workshop for now before I start bringing it all together.
+
+[h1] To-Do [/h1]
+[list]
+    [*]Buy menu for detectives and traitors
+    [*]Client UI for health, timer, and role during round
+    [*]Fix weapon names and replace with VR variants
+    [*]Pickup using hands
+[/list]
+
+[h1] Development [/h1]
+If anyone wants to help by contributing code, reporting bugs, or suggesting features, I've made a [url=https://github.com/bennyd87708/TTT-VR]GitHub repo[/url] for the project (or feel free to comment, start a discussion, or add me here on Steam)
