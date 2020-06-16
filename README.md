@@ -10,9 +10,13 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 ## To-Do ##
 
 - Buy menu for detectives and traitors
-- Client UI for health, timer, and role during round
-- Fix weapon names and replace some with VR variant
-- Pickup using hands
+- Client UI for health, haste timer, role, and radar timer during round (use j2b2's VRMod HUD addon for now)
+- Replace CSS weapons with VR variants
+- Magneto-stick prop handling
+- Pickup weapons using hands
+- Search corpses & planted bomb UI
+- DNA Scanner, planted C4, and radar UI
+- Round end UI (show winners and highlights)
 
 ## Bugs ##
 
