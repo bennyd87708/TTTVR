@@ -1,6 +1,6 @@
 ---- Main TTTVR Lua File
 
--- Wait until gamemode is loaded to initialize addon using initialize hook
+-- Wait until gamemode is loaded to initialize addon using GM hook
 hook.Add("Initialize", "Benny:TTTVR:Initialization", function()
 	if SERVER then
 		-- runs server initialization
@@ -10,3 +10,5 @@ hook.Add("Initialize", "Benny:TTTVR:Initialization", function()
 		include "tttvr/cl_init.lua"
 	end
 end)
+
+print("TTT VR LOADED")
