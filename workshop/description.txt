@@ -1,22 +1,26 @@
 [h1] About [/h1]
 Pavlov VR is great, but what if your friends don't all have VR?
-This is currently a simple client-sided addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI additions and soon through weapon fixes.
+This is currently a simple addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI additions and soon through VR weapon replacements.
 
 [h1] Usage [/h1]
-Make sure you and the server both have VRMod, and once you are in-game, type vrmod_start into console. To return to normal, type vrmod_exit (you should probably reconnect just in case). If you want a HUD for your health, timer, and role during the round, check out j2b2's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]VRMod HUD addon[/url].
+Make sure you and the server both have the VRMod addons and this addon, and once you are in-game, type vrmod_start into console (It won't start if you are in spectator mode). To return to normal, type vrmod_exit in console (sometimes end up in the floor, so you should probably reconnect just in case). If you want a HUD for your health, haste timer, and role during the round, check out j2b2's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]VRMod HUD addon[/url].
 
 [h1] Features [/h1]
 [list]
-    [*]Client UI on the right hand to indicate player's role at the start of the round
+	[*]Indicator on the right hand for player's role at the start of the round
+	[*]Buy menu for detectives and traitors using the VRMod chat bind
 [/list]
-It's certainly not much at the moment but I wanted to get everything set up on the workshop for now before I start bringing it all together.
 
 [h1] To-Do [/h1]
 [list]
-    [*]Buy menu for detectives and traitors
-    [*]Client UI for health, timer, and role during round
-    [*]Fix weapon names and replace with VR variants
-    [*]Pickup using hands
+	[*]Client UI for health, timer, and role during round
+	[*]Replace CSS weapons with VR variants
+	[*]Magneto-stick prop handling
+	[*]Pickup weapons using hands
+	[*]Search corpses & planted bomb UI
+	[*]DNA Scanner, planted C4, and radar overlays
+	[*]Round end UI (show winners and highlights)
+	[*]Access to weapon slots 7, 8, and 9
 [/list]
 
 [h1] Development [/h1]
