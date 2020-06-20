@@ -27,7 +27,6 @@ hook.Add("TTTBeginRound","Benny:TTTVR:roleuihook", function()
 			-- define the panel that will show
 			local roleui = nil
 			roleui = vgui.Create("DPanel")
-			roleui:Center()
 			roleui:SetPos(0,0)
 			roleui:SetSize(600,200)
 			

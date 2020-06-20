@@ -22,6 +22,7 @@ Make sure you and the server both have the VRMod addon and this addon, and once 
 	[*]DNA Scanner, planted C4, and radar overlays
 	[*]Round end UI (show winners and highlights)
 	[*]Access to weapon slots 7, 8, and 9
+	[*]Support for TTT2
 [/list]
 
 [h1] Development [/h1]

@@ -18,6 +18,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - DNA Scanner, planted C4, and radar overlays
 - Round end UI (show winners and highlights)
 - Access to weapon slots 7, 8, and 9
+- Support for TTT2
 
 ## Bugs ##
 

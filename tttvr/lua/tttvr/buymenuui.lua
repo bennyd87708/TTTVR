@@ -6,61 +6,6 @@ local GetTranslation = LANG.GetTranslation
 local GetPTranslation = LANG.GetParamTranslation
 
 local Equipment = nil
-function GetEquipmentForRole(role)
-	-- need to build equipment cache?
-	if not Equipment then
-		-- start with all the non-weapon goodies
-		local tbl = table.Copy(EquipmentItems)
-
-		-- find buyable weapons to load info from
-		for k, v in pairs(weapons.GetList()) do
-			if v and v.CanBuy then
-				local data = v.EquipMenuData or {}
-				local base = {
-					id		 = WEPS.GetClass(v),
-					name	  = v.PrintName or "Unnamed",
-					limited  = v.LimitedStock,
-					kind	  = v.Kind or WEAPON_NONE,
-					slot	  = (v.Slot or 0) + 1,
-					material = v.Icon or "vgui/ttt/icon_id",
-					-- the below should be specified in EquipMenuData, in which case
-					-- these values are overwritten
-					type	  = "Type not specified",
-					model	 = "models/weapons/w_bugbait.mdl",
-					desc	  = "No description specified."
-				};
-
-				-- Force material to nil so that model key is used when we are
-				-- explicitly told to do so (ie. material is false rather than nil).
-				if data.modelicon then
-					base.material = nil
-				end
-
-				table.Merge(base, data)
-
-				-- add this buyable weapon to all relevant equipment tables
-				for _, r in pairs(v.CanBuy) do
-					table.insert(tbl[r], base)
-				end
-			end
-		end
-
-		-- mark custom items
-		for r, is in pairs(tbl) do
-			for _, i in pairs(is) do
-				if i and i.id then
-					i.custom = not table.HasValue(DefaultEquipment[r], i.id)
-				end
-			end
-		end
-
-		Equipment = tbl
-	end
-
-	return Equipment and Equipment[role] or {}
-end
-
-
 local function ItemIsWeapon(item) return not tonumber(item.id) end
 local function CanCarryWeapon(item) return LocalPlayer():CanCarryType(item.kind) end
 
