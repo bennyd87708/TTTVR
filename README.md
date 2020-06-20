@@ -5,8 +5,9 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 
 ## Features ##
 
-- Indicator on the right hand for player's role at the start of the round
+- Custom weapon selection UI ported from TTT
 - Buy menu for detectives and traitors using the VRMod chat bind
+- Indicator on the right hand for player's role at the start of the round
 
 ## To-Do ##
 
@@ -17,12 +18,11 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - Search corpses & planted bomb UI
 - DNA Scanner, planted C4, and radar overlays
 - Round end UI (show winners and highlights)
-- Access to weapon slots 7, 8, and 9
 - Support for TTT2
 
 ## Bugs ##
 
-- None known yet
+- Buy menu sometimes won't accept inputs properly
 
 ## FAQ ##
 

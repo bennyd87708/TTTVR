@@ -95,15 +95,15 @@ local color_slot = {
 
 local fieldstbl = {"name", "type", "desc"}
 
-local eqframe = nil
-local function TraitorMenuPopup()
+TTTVReqframe = nil
+function TTTVRBuyMenuOpen()
 	local ply = LocalPlayer()
 	if not IsValid(ply) or not ply:IsActiveSpecial() then
 		return
 	end
 
 	-- Close any existing VRMod traitor menu (EDITED)
-	if eqframe and IsValid(eqframe) then vrmod.MenuClose("Benny:TTTVR:buymenuui") end
+	if TTTVReqframe and IsValid(TTTVReqframe) then vrmod.MenuClose("Benny:TTTVR:buymenuui") end
 
 	local credits = ply:GetCredits()
 	local can_order = credits > 0
@@ -379,7 +379,7 @@ local function TraitorMenuPopup()
 	dframe:SetKeyboardInputEnabled(false)
 	--]]
 	
-	eqframe = dframe
+	TTTVReqframe = dframe
 end
 
 local function ReceiveEquipment()
@@ -433,47 +433,3 @@ local function ReceiveBoughtItem()
 	hook.Run("TTTBoughtItem", is_item, id)
 end
 net.Receive("TTT_BoughtItem", ReceiveBoughtItem)
-
-
-
----- end of cl_equip, below are hooks to implement the buymenu with VRMod
-
-
-
-
--- hook to prevent the button from opening the chat
-hook.Add("VRUtilAllowDefaultAction","Benny:TTTVR:buymenuuiblockhook", function(ActionName)
-	if(ActionName == "boolean_chat" && gmod.GetGamemode().Name == "Trouble in Terrorist Town") then
-		return false
-	end
-	return true
-end)
-
--- hook to toggle the VR menu when the chat button is pressed
-hook.Add("VRUtilEventInput","Benny:TTTVR:buymenuuibindhook", function(ActionName, State)
-	if(ActionName == "boolean_chat" && State && gmod.GetGamemode().Name == "Trouble in Terrorist Town") then
-		-- check if the person is a traitor/detective and that the round is active
-		local r = GetRoundState()
-		if r == ROUND_ACTIVE and not (LocalPlayer():GetTraitor() or LocalPlayer():GetDetective()) then
-			return
-		elseif r == ROUND_POST or r == ROUND_PREP then
-			-- toggle round ending UI if button is pressed while there is no active round
-			-- CODE WILL GO HERE
-			return
-		end
-		
-		-- close VR buymenu if it is open
-		if vrmod.MenuExists("Benny:TTTVR:buymenuui") then
-			vrmod.MenuClose("Benny:TTTVR:buymenuui")
-			
-		-- otherwise, open the VR buymenu:
-		else
-			-- draws the UI to eqframe variable using function above from cl_equip
-			TraitorMenuPopup()
-			-- draws the DFrame using VRMod API on the left hand
-			vrmod.MenuCreate("Benny:TTTVR:buymenuui", 570, 412, eqframe, 1, Vector(10,6,13), Angle(0,-90,50), 0.03, true, function()
-				eqframe:Remove()
-			end)
-		end
-	end
-end)
