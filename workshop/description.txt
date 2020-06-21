@@ -4,12 +4,13 @@ Pavlov VR is great, but what if your friends don't all have VR?
 This is currently a simple addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI additions and soon through VR weapon replacements.
 
 [h1] Usage [/h1]
-Make sure VR users and the server both have the VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It won't start if you are in spectator mode). To return to normal, type vrmod_exit in console (sometimes end up in the floor, so you should probably reconnect just in case). If you want a HUD for your health, haste timer, and role during the round, check out j2b2's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]VRMod HUD addon[/url].
+Make sure VR users and the server both have the VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It won't start if you are in spectator mode). To return to normal, type vrmod_exit in console (sometimes end up in the floor, so you should probably reconnect just in case). If you want a HUD for your health, haste timer, and role during the round, for now check out j2b2's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]VRMod HUD addon[/url].
 
 [h1] Features [/h1]
 [list]
 	[*]Custom weapon selection UI ported from TTT
 	[*]Buy menu for detectives and traitors using the VRMod chat bind
+	[*]Round end UI (show winning team and highlights) toggleable with VRMod chat bind
 	[*]Indicator on the right hand for player's role at the start of the round
 [/list]
 
@@ -22,7 +23,8 @@ Make sure VR users and the server both have the VRMod addon and this addon, and 
 	[*]Ability to kill yourself with certain weapons
 	[*]Search corpses & planted bomb UI
 	[*]DNA Scanner, planted C4, and radar overlays
-	[*]Round end UI (show winners and highlights)
+	[*]Scoreboard UI
+	[*]Game status messages
 	[*]Support for TTT2
 [/list]
 

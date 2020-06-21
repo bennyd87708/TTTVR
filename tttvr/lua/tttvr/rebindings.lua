@@ -42,12 +42,16 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 		elseif r == ROUND_POST or r == ROUND_PREP then
 		
 			-- toggle round ending UI if button is pressed while there is no active round
-			-- CODE WILL GO HERE
+			if(vrmod.MenuExists("Benny:TTTVR:scoreui") && IsValid(CLSCORE.Panel)) then
+				vrmod.MenuClose("Benny:TTTVR:scoreui")
+			else
+				TTTVRScoreUIOpen()
+			end
 			return
 		end
 		
 		-- close VR buymenu if it is open
-		if vrmod.MenuExists("Benny:TTTVR:buymenuui") then
+		if vrmod.MenuExists("Benny:TTTVR:buymenuui") && IsValid(TTTVReqframe) then
 			vrmod.MenuClose("Benny:TTTVR:buymenuui")
 			
 		-- otherwise, open the VR buymenu:
