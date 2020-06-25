@@ -2,7 +2,7 @@
 
 -- hook to prevent the default binds for chat and weapon change from working
 hook.Add("VRUtilAllowDefaultAction","Benny:TTTVR:buymenuuiblockhook", function(ActionName)
-	if(gmod.GetGamemode().Name != "Trouble in Terrorist Town") then return end
+	if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
 	
 	if(ActionName == "boolean_chat" or ActionName == "boolean_changeweapon") then
 		return false
@@ -11,7 +11,7 @@ end)
 
 -- hook for when an input is made to know when to do things
 hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
-	if(gmod.GetGamemode().Name != "Trouble in Terrorist Town") then return end
+	if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
 	local ply = LocalPlayer()
 	
 	-- toggle the custom VR weapon selection menu when the weapon menu button is pressed

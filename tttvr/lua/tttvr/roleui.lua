@@ -8,7 +8,7 @@ local bg_colors = {
    detective = Color(25, 25, 200, 200)
 };
 
--- uses built-in TTT hook to draw role ui for vr users at the start of a ttt round
+-- uses built-in TTT hook to draw role ui for vr users at the start of a TTT round
 hook.Add("TTTBeginRound","Benny:TTTVR:roleuihook", function()
 	local ply = LocalPlayer()
 	-- check that player is real and in VR
@@ -38,6 +38,9 @@ hook.Add("TTTBeginRound","Benny:TTTVR:roleuihook", function()
 			end
 			
 			-- draw the menu on the player's right hand using VRMod API
+			if vrmod.MenuExists("Benny:TTTVR:roleuimenu") then
+				vrmod.MenuClose("Benny:TTTVR:roleuimenu")
+			end
 			vrmod.MenuCreate("Benny:TTTVR:roleuimenu", 600, 200, roleui, 2, Vector(10,6,13), Angle(0,-90,50), 0.03, false, function()
 				roleui:SetVisible(false)
 				roleui:Remove()

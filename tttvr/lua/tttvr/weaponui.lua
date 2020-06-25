@@ -102,7 +102,7 @@ function TTTVRWeaponMenuOpen(pos, ang)
 		WSWITCH:UpdateWeaponCache()
 		
 		-- if the number of weapons changes while the menu is open, close the current one and open a new one
-		if(#lastCache != #WSWITCH.WeaponCache) then
+		if(#lastCache ~= #WSWITCH.WeaponCache) then
 			if vrmod.MenuExists("Benny:TTTVR:weaponmenu"..tostring(#lastCache)) then
 				redraw = true
 				vrmod.MenuClose("Benny:TTTVR:weaponmenu"..tostring(#lastCache))

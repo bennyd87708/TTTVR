@@ -24,8 +24,8 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 
 ## Bugs ##
 
-- Buy menu sometimes won't accept inputs
 - UIs sometimes pop up on actual screen as well as in VR
+- need to double click tabs in buy menu to switch
 
 ## FAQ ##
 
