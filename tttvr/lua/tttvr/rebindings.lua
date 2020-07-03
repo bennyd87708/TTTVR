@@ -1,25 +1,38 @@
----- Rebindings: prevent the default action for 
+---- Rebindings: prevent the default action for VRMod controls and add our own
 
 -- hook to prevent the default binds for chat and weapon change from working
 hook.Add("VRUtilAllowDefaultAction","Benny:TTTVR:buymenuuiblockhook", function(ActionName)
-	if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
 	
-	if(ActionName == "boolean_chat" or ActionName == "boolean_changeweapon") then
-		return false
+	-- if the weapon can secondary attack then prevent the flashlight
+	if(ActionName == "boolean_flashlight") then
+		local wep = LocalPlayer():GetActiveWeapon()
+		if((wep:GetClass() == "tttvr_magnetostick") or (wep:GetClass() == "tttvr_crowbar") or ((wep:Clip2() ~= -1) and (wep:GetClass() ~= "tttvr_rifle"))) then
+			return false
+		end
+		return true
 	end
+	
+	-- otherwise just prevent all the other default binds
+	return not(	ActionName == "boolean_chat" or
+				ActionName == "boolean_changeweapon" or
+				ActionName == "boolean_reload" or
+				ActionName == "boolean_use" or
+				ActionName == "boolean_left_pickup" or
+				ActionName == "boolean_secondaryfire")
 end)
 
 -- hook for when an input is made to know when to do things
+-- reorder these so most used is highest?
 hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
-	if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
 	local ply = LocalPlayer()
 	
 	-- toggle the custom VR weapon selection menu when the weapon menu button is pressed
-	if(ActionName == "boolean_changeweapon") then
+	if ActionName == "boolean_changeweapon" then
 		if(State) then
 			
 			-- calculate where to place the UI based on hand position
-			local tmp = Angle(0,vrmod.GetHMDAng(ply).yaw-90,45) --Forward() = right, Right() = back, Up() = up (relative to panel, panel forward is looking at top of panel from middle of panel, up is normal)
+			-- todo: change angle so it is based on hand angle and pointer starts at the top of the list
+			local tmp = Angle(0,vrmod.GetHMDAng(ply).yaw-90, 45)
 			local position, angle = WorldToLocal(vrmod.GetRightHandPos(ply) + tmp:Forward()*-9 + tmp:Right()*-11 + tmp:Up()*-7, tmp, vrmod.GetOriginPos(), vrmod.GetOriginAng())
 			
 			-- open the menu at the given position and angle
@@ -31,10 +44,13 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 				vrmod.MenuClose("Benny:TTTVR:weaponmenu"..tostring(#WSWITCH.WeaponCache))
 			end
 		end
-		
-	-- toggle the VR buy menu when the chat button is pressed
-	elseif(ActionName == "boolean_chat" && State) then
+		return
+	end
 	
+	-- toggle the VR buy menu when the chat button is pressed
+	if ActionName == "boolean_chat" then
+		if not State then return end
+		
 		-- check if the person is a traitor/detective and that the round is active
 		local r = GetRoundState()
 		if r == ROUND_ACTIVE and not (ply:GetTraitor() or ply:GetDetective()) then
@@ -42,7 +58,7 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 		elseif r == ROUND_POST or r == ROUND_PREP then
 		
 			-- toggle round ending UI if button is pressed while there is no active round
-			if(vrmod.MenuExists("Benny:TTTVR:scoreui") && IsValid(CLSCORE.Panel)) then
+			if vrmod.MenuExists("Benny:TTTVR:scoreui") then
 				vrmod.MenuClose("Benny:TTTVR:scoreui")
 			else
 				TTTVRScoreUIOpen()
@@ -51,7 +67,7 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 		end
 		
 		-- close VR buymenu if it is open
-		if vrmod.MenuExists("Benny:TTTVR:buymenuui") && IsValid(TTTVReqframe) then
+		if vrmod.MenuExists("Benny:TTTVR:buymenuui") and IsValid(TTTVReqframe) then
 			vrmod.MenuClose("Benny:TTTVR:buymenuui")
 			
 		-- otherwise, open the VR buymenu:
@@ -65,5 +81,37 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 				TTTVReqframe:Remove()
 			end)
 		end
+		return
+	end
+	
+	-- bind drop weapon to the default secondary fire button
+	if ActionName == "boolean_secondaryfire" then
+		ply:ConCommand(State and "+menu" or "-menu")
+		return
+	end
+	
+	-- bind voice chat to the default left pickup button
+	if ActionName == "boolean_left_pickup" then
+		ply:ConCommand(State and "+voicerecord" or "-voicerecord")
+		return
+	end
+	
+	--[[ bind traitor voice chat to when left trigger clicks all the way - not a feature in VRMod yet
+	if (ActionName == "boolean_left_pickup" and ) then
+		ply:ConCommand(State and "+speed" or "-speed")
+		return
+	end
+	--]]
+	
+	-- bind reload to the default use button
+	if ActionName == "boolean_use" then
+		ply:ConCommand(State and "+reload" or "-reload")
+		return
+	end
+	
+	-- bind use to the default reload button
+	if ActionName == "boolean_reload" then
+		ply:ConCommand(State and "+use" or "-use")
+		return
 	end
 end)

@@ -1,6 +1,6 @@
 {
 	"title"		:	"TTT VR - VRMod Support [in development]",
-	"type"		:	"tool",
+	"type"		:	"gamemode",
 	"tags"		:	[ "roleplay", "realism" ],
 	"ignore"	:
 	[

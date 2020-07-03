@@ -7,21 +7,21 @@ function TTTVRScoreUIOpen()
 	if(not IsValid(CLSCORE.Panel)) then return end
 	CLSCORE.Panel:SetPos(0,0)
 	CLSCORE.Panel:SetDraggable(false)
+	CLSCORE.Panel:SetVisible(true)
 	vrmod.MenuCreate("Benny:TTTVR:scoreui", 700, 500, CLSCORE.Panel, 1, Vector(10,6,13), Angle(0,-90,50), 0.03, true, function()
-		CLSCORE.Panel:ToggleVisible()
+		CLSCORE.Panel:SetVisible(false)
 	end)
 end
 
 -- uses built-in TTT hook to automatically draw score ui for vr users at the end of a TTT round
 hook.Add("TTTEndRound","Benny:TTTVR:scoreuiopenhook", function(result)
 	local ply = LocalPlayer()
-	
 	-- check that player is real and in VR
-	if(IsValid(ply) && CLIENT && istable(vrmod)) then
+	if(IsValid(ply) and CLIENT and istable(vrmod)) then
 		if(vrmod.IsPlayerInVR(ply)) then
 		
 			-- close the buy menu if it's open to make room for the score panel
-			if vrmod.MenuExists("Benny:TTTVR:buymenuui") && IsValid(TTTVReqframe) then
+			if vrmod.MenuExists("Benny:TTTVR:buymenuui") and IsValid(TTTVReqframe) then
 				vrmod.MenuClose("Benny:TTTVR:buymenuui")
 			end
 			
@@ -38,8 +38,8 @@ hook.Add("TTTPrepareRound","Benny:TTTVR:scoreuiclosehook", function()
 	local ply = LocalPlayer()
 	
 	-- check that player is real and in VR
-	if(IsValid(ply) && CLIENT && istable(vrmod)) then
-		if(vrmod.IsPlayerInVR(ply) && vrmod.MenuExists("Benny:TTTVR:scoreui") && IsValid(CLSCORE.Panel)) then
+	if(IsValid(ply) and CLIENT and istable(vrmod)) then
+		if(vrmod.IsPlayerInVR(ply) and vrmod.MenuExists("Benny:TTTVR:scoreui")) then
 			vrmod.MenuClose("Benny:TTTVR:scoreui")
 		end
 	end
