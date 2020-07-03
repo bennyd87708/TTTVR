@@ -11,8 +11,12 @@ local bg_colors = {
 -- uses built-in TTT hook to draw role ui for vr users at the start of a TTT round
 hook.Add("TTTBeginRound","Benny:TTTVR:roleuihook", function()
 	local ply = LocalPlayer()
+
+	-- hijacking this hook to fix the weapon muzzle offset when round is force restarted
+	TTTVRMuzzleOffsetFix()
+
 	-- check that player is real and in VR
-	if(IsValid(ply) && CLIENT && istable(vrmod)) then
+	if(IsValid(ply) and CLIENT and istable(vrmod)) then
 		if(vrmod.IsPlayerInVR(ply)) then
 		
 			-- find player's role and define corresponding background color

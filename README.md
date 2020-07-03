@@ -5,27 +5,32 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 
 ## Features ##
 
-- Custom weapon selection UI ported from TTT
-- Buy menu for detectives and traitors using the VRMod chat bind
-- Round end UI (show winning team and highlights) toggleable with VRMod chat bind
-- Indicator on the right hand for player's role at the start of the round
+- Weapon selection UI ported from TTT
+- Buy menu for detectives and traitors
+- Round end UI (show winning team and highlights)
+- Indicator for player's role at the start of the round
+- Gun muzzle position and melee weapon fixes
 - In-world Radar HUD with proper depth perception
-- Trigger traitor traps
+- Triggerable traitor traps
 
 ## To-Do ##
 
 - Client UI for health, haste timer, role, and radar timer during round (use [j2b2's VRMod HUD addon](https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124) for now)
-- Replace CSS weapons with VR variants
-- Magneto-stick prop handling
+- Replace CSS weapon viewmodels
 - Pickup weapons using hands
 - Search corpses, planted bomb, and DNA scanner UIs
+- Editable controls
 - Scoreboard UI
+- Spectator Mode
 - Game status messages
 - Support for TTT2
 
 ## Bugs ##
 
 - Need to double click tabs in buy menu to switch them
+- Weapon muzzle flashes come from world model position
+- Mac-10 shoots significantly sideways
+- Held magneto stick props launch randomly
 
 ## FAQ ##
 

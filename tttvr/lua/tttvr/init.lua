@@ -8,4 +8,8 @@ AddCSLuaFile "buymenuui.lua"
 AddCSLuaFile "weaponui.lua"
 AddCSLuaFile "scoreui.lua"
 AddCSLuaFile "radarui.lua"
+AddCSLuaFile "muzzleoffset.lua"
 AddCSLuaFile "roleui.lua"
+
+-- runs serverside scripts
+include "tttvr/weaponreplacer.lua"

@@ -18,11 +18,11 @@ hook.Add("VRUtilAllowDefaultAction","Benny:TTTVR:buymenuuiblockhook", function(A
 				ActionName == "boolean_reload" or
 				ActionName == "boolean_use" or
 				ActionName == "boolean_left_pickup" or
-				ActionName == "boolean_secondaryfire")
+				ActionName == "boolean_secondaryfire" or
+				ActionName == "boolean_primaryfire")
 end)
 
 -- hook for when an input is made to know when to do things
--- reorder these so most used is highest?
 hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 	local ply = LocalPlayer()
 	
@@ -43,6 +43,16 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 			if vrmod.MenuExists("Benny:TTTVR:weaponmenu"..tostring(#WSWITCH.WeaponCache)) then
 				vrmod.MenuClose("Benny:TTTVR:weaponmenu"..tostring(#WSWITCH.WeaponCache))
 			end
+		end
+		return
+	end
+	
+	-- secondary fire when there is a secondary fire available on the weapon
+	if ActionName == "boolean_flashlight" then
+		local wep = ply:GetActiveWeapon()
+		if not wep then return end
+		if((wep:GetClass() == "tttvr_magnetostick") or (wep:GetClass() == "tttvr_crowbar") or ((wep:Clip2() ~= -1) and (wep:GetClass() ~= "tttvr_rifle"))) then
+			ply:ConCommand(State and "+attack2" or "-attack2")
 		end
 		return
 	end
@@ -96,7 +106,26 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 		return
 	end
 	
-	--[[ bind traitor voice chat to when left trigger clicks all the way - not a feature in VRMod yet
+	-- bind hold to pickup with magneto stick to primary fire
+	if ActionName == "boolean_primaryfire" then
+		if g_VR.menuFocus then return end
+		local wep = ply:GetActiveWeapon()
+		if IsValid(wep) then
+			if (wep:GetClass() == "tttvr_magnetostick") then
+				if(State) then
+					ply:ConCommand("+attack")
+					timer.Simple(0, function()
+						ply:ConCommand("-attack")
+					end)
+					return
+				else return end
+			end
+		end
+		ply:ConCommand(State and "+attack" or "-attack")
+		return
+	end
+	
+	--[[ bind traitor voice chat to when left trigger clicks all the way - not a feature yet
 	if (ActionName == "boolean_left_pickup" and ) then
 		ply:ConCommand(State and "+speed" or "-speed")
 		return
@@ -111,7 +140,11 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 	
 	-- bind use to the default reload button
 	if ActionName == "boolean_reload" then
-		ply:ConCommand(State and "+use" or "-use")
+		if TBHUD:PlayerIsFocused() then
+			TBHUD:UseFocused()
+		else
+			ply:ConCommand(State and "+use" or "-use")
+		end
 		return
 	end
 end)

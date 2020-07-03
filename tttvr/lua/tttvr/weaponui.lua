@@ -88,8 +88,14 @@ function TTTVRWeaponMenuOpen(pos, ang)
 		if(redraw) then
 			redraw = false
 		else
-			if WSWITCH.WeaponCache[Selected] then
-				input.SelectWeapon(WSWITCH.WeaponCache[Selected])
+			
+			-- if we switch to a TTTVR weapon, apply it's muzzle offset
+			local wep = WSWITCH.WeaponCache[Selected]
+			if wep then
+				input.SelectWeapon(wep)
+				if wep.Category == "TTTVR" then
+					wep:SetMuzzleOffset()
+				end
 			end
 			prevSelected = -2
 		end
@@ -125,7 +131,7 @@ function TTTVRWeaponMenuOpen(pos, ang)
 		end
 		
 		-- if the UI is still the same as it was last frame, return so as to not draw anything
-		if(prevSelected == Selected && WSWITCH.WeaponCache == lastCache) then
+		if(prevSelected == Selected and WSWITCH.WeaponCache == lastCache) then
 			return
 		else
 			prevSelected = Selected
