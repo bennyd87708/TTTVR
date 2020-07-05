@@ -5,6 +5,5 @@ AddCSLuaFile()
 SWEP.Base = "weapon_ttt_unarmed"
 
 -- change the model and make sure it isn't default
-SWEP.InLoadoutFor = {}
 SWEP.ViewModel = "models/weapons/c_arms.mdl"
 SWEP.WorldModel = ""

@@ -31,6 +31,7 @@ The default HTC Vive controls can be found [url=https://raw.githubusercontent.co
 	[*]Scoreboard UI
 	[*]Spectator Mode
 	[*]Game status messages
+	[*]Hover-over player info
 	[*]Support for TTT2
 [/list]
 

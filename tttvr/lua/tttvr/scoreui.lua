@@ -26,7 +26,7 @@ hook.Add("TTTEndRound","Benny:TTTVR:scoreuiopenhook", function(result)
 			end
 			
 			-- wait one second because the panel isn't drawn right when the round ends
-			timer.Simple(1, function()
+			timer.Simple(0, function()
 				TTTVRScoreUIOpen()
 			end)
 		end

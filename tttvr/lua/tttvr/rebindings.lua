@@ -6,8 +6,10 @@ hook.Add("VRUtilAllowDefaultAction","Benny:TTTVR:buymenuuiblockhook", function(A
 	-- if the weapon can secondary attack then prevent the flashlight
 	if(ActionName == "boolean_flashlight") then
 		local wep = LocalPlayer():GetActiveWeapon()
-		if((wep:GetClass() == "tttvr_magnetostick") or (wep:GetClass() == "tttvr_crowbar") or ((wep:Clip2() ~= -1) and (wep:GetClass() ~= "tttvr_rifle"))) then
-			return false
+		if IsValid(wep) then
+			if((wep:GetClass() == "tttvr_magnetostick") or (wep:GetClass() == "tttvr_crowbar") or (wep:Clip2() > 0)) then
+				return false
+			end
 		end
 		return true
 	end
@@ -50,7 +52,7 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 	-- secondary fire when there is a secondary fire available on the weapon
 	if ActionName == "boolean_flashlight" then
 		local wep = ply:GetActiveWeapon()
-		if not wep then return end
+		if not IsValid(wep) then return end
 		if((wep:GetClass() == "tttvr_magnetostick") or (wep:GetClass() == "tttvr_crowbar") or ((wep:Clip2() ~= -1) and (wep:GetClass() ~= "tttvr_rifle"))) then
 			ply:ConCommand(State and "+attack2" or "-attack2")
 		end
@@ -111,16 +113,15 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 		if g_VR.menuFocus then return end
 		local wep = ply:GetActiveWeapon()
 		if IsValid(wep) then
-			if (wep:GetClass() == "tttvr_magnetostick") then
-				if(State) then
-					ply:ConCommand("+attack")
-					timer.Simple(0, function()
-						ply:ConCommand("-attack")
-					end)
-					return
-				else return end
+			if wep:GetClass() == "tttvr_magnetostick" and State then
+				ply:ConCommand("+attack")
+				timer.Simple(0, function()
+					ply:ConCommand("-attack")
+				end)
+				return
 			end
 		end
+		
 		ply:ConCommand(State and "+attack" or "-attack")
 		return
 	end

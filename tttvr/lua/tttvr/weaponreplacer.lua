@@ -2,17 +2,20 @@
 
 -- global keeps track of what TTT weapons are replaced by what VR variants - maybe add some kind of config file?
 TTTVRWeaponReplacements = {}
-TTTVRWeaponReplacements["weapon_zm_improvised"] = 	"tttvr_crowbar"
-TTTVRWeaponReplacements["weapon_zm_revolver"] = 	"tttvr_deagle"
-TTTVRWeaponReplacements["weapon_ttt_glock"] = 		"tttvr_glock"
-TTTVRWeaponReplacements["weapon_ttt_unarmed"] = 	"tttvr_holstered"
-TTTVRWeaponReplacements["weapon_zm_sledge"] = 		"tttvr_huge"
-TTTVRWeaponReplacements["weapon_ttt_m16"] = 		"tttvr_m16"
-TTTVRWeaponReplacements["weapon_zm_mac10"] = 		"tttvr_mac10"
-TTTVRWeaponReplacements["weapon_zm_carry"] = 		"tttvr_magnetostick"
-TTTVRWeaponReplacements["weapon_zm_pistol"] = 		"tttvr_pistol"
-TTTVRWeaponReplacements["weapon_zm_rifle"] = 		"tttvr_rifle"
-TTTVRWeaponReplacements["weapon_zm_shotgun"] =		"tttvr_shotgun"
+TTTVRWeaponReplacements["weapon_zm_improvised"] =		"tttvr_crowbar"
+TTTVRWeaponReplacements["weapon_zm_revolver"] = 		"tttvr_deagle"
+TTTVRWeaponReplacements["weapon_ttt_glock"] = 			"tttvr_glock"
+TTTVRWeaponReplacements["weapon_ttt_unarmed"] = 		"tttvr_holstered"
+TTTVRWeaponReplacements["weapon_zm_sledge"] = 			"tttvr_huge"
+TTTVRWeaponReplacements["weapon_ttt_m16"] = 			"tttvr_m16"
+TTTVRWeaponReplacements["weapon_zm_mac10"] = 			"tttvr_mac10"
+TTTVRWeaponReplacements["weapon_zm_carry"] = 			"tttvr_magnetostick"
+TTTVRWeaponReplacements["weapon_zm_pistol"] = 			"tttvr_pistol"
+TTTVRWeaponReplacements["weapon_zm_rifle"] = 			"tttvr_rifle"
+TTTVRWeaponReplacements["weapon_zm_shotgun"] =			"tttvr_shotgun"
+TTTVRWeaponReplacements["weapon_ttt_smokegrenade"] =	"tttvr_smoke"
+TTTVRWeaponReplacements["weapon_ttt_confgrenade"] =		"tttvr_discombobulator"
+TTTVRWeaponReplacements["weapon_zm_molotov"] =			"tttvr_incendiary"
 
 -- reverse table lookup so we can search in both directions (get key from value)
 function getTTTVROriginalWeapon(vrgun)
@@ -79,11 +82,27 @@ hook.Add("VRUtilStart", "Benny:TTTVR:initialweaponreplacerhook", function(ply)
 	for k, wep in pairs(ply:GetWeapons()) do
 		convertWeaponToTTTVR(wep, ply)
 	end
+	
+	-- start out holstered so that selected weapon model isn't unrendered
+	timer.Simple(1, function()
+		ply:SelectWeapon("tttvr_holstered")
+	end)
 end)
 
 -- when someone exits VR, go through all of their weapons and convert any VR to normal variants
 hook.Add("VRUtilExit", "Benny:TTTVR:endweaponreplacerhook", function(ply)
 	for k, wep in pairs(ply:GetWeapons()) do
 		convertTTTVRWeaponToNormal(wep)
+	end
+end)
+
+-- make sure player always spawns in holstered
+hook.Add("PlayerSpawn", "Benny:TTTVR:playerspawnoffsetfix", function(ply)
+	if(IsValid(ply) and istable(vrmod)) then
+		if(vrmod.IsPlayerInVR(ply)) then
+			timer.Simple(0.1, function()
+				ply:SelectWeapon("tttvr_holstered")
+			end)
+		end
 	end
 end)

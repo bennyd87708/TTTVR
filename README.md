@@ -23,6 +23,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - Scoreboard UI
 - Spectator Mode
 - Game status messages
+- Hover-over player info
 - Support for TTT2
 
 ## Bugs ##
@@ -31,6 +32,8 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - Weapon muzzle flashes come from world model position
 - Mac-10 shoots significantly sideways
 - Held magneto stick props launch randomly
+- Not existing in the world until the round starts
+- TTT Hitboxes don't move with visible VRMod player
 
 ## FAQ ##
 

@@ -3,13 +3,6 @@
 -- define global muzzle offset on the client which can be altered by individual weapons
 TTTVRCurrentMuzzleOffset = Vector(0,0,0)
 
--- function to fix offset for when it might be wrong
-function TTTVRMuzzleOffsetFix()
-	local wep = LocalPlayer():GetActiveWeapon()
-	if not (wep.Category == "TTTVR") then return end
-	wep:SetMuzzleOffset()
-end
-
 -- when a player goes into VR, start keeping track of whether they are holding a weapon with a custom muzzle offset
 hook.Add("VRUtilStart", "Benny:TTTVR:clientaimstarthook", function(ply)
 	
@@ -28,11 +21,6 @@ hook.Add("VRUtilStart", "Benny:TTTVR:clientaimstarthook", function(ply)
 			g_VR.viewModelMuzzle.Ang = ang
 		end
 	end)
-	
-	-- apply offset for current weapon on enter VR
-	timer.Simple(1, function()
-		TTTVRMuzzleOffsetFix()
-	end)
 end)
 
 -- stop keeping track when the player isn't in VR so we aren't wasting performance
@@ -40,15 +28,9 @@ hook.Add("VRUtilExit", "Benny:TTTVR:clientaimkillhook", function(ply)
 	hook.Remove("DrawMonitors", "Benny:TTTVR:updatemuzzleoffset")
 end)
 
--- make sure it kicks in when player spawns
-gameevent.Listen("player_spawn")
-hook.Add("player_spawn", "Benny:TTTVR:playerspawnoffsetfix", function()
-	TTTVRMuzzleOffsetFix()
-end)
-
 --[[ Debug hook to draw the muzzle location and laser pointer on weapons to help manually setting each muzzle offset
 hook.Add("PostDrawViewModel", "Benny:TTTVR:muzzledebughook", function()
-	print(LocalPlayer():GetActiveWeapon())
+	--print(LocalPlayer():GetActiveWeapon())
 	
 	if(not (g_VR.viewModelMuzzle)) then return end
 	render.SetMaterial(Material("cable/redlaser"))

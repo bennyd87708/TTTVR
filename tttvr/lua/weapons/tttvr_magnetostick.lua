@@ -9,7 +9,6 @@ function SWEP:SetMuzzleOffset()
 	TTTVRCurrentMuzzleOffset = Vector(32, 13, -17)
 end
 
-SWEP.Spawnable = false
 
 -- stolen from weapon_zm_carry and slightly edited
 -- couldn't use as base class because it has some client functions at the end that crash the game in VR
@@ -97,7 +96,6 @@ end
 
 -- could totally get rid of this to allow throwing ragdolls which is tempting
 local function KillVelocity(ent)
-	--[[ it's too much fun i can't help it
 	ent:SetVelocity(vector_origin)
 
 	-- The only truly effective way to prevent all kinds of velocity and
@@ -106,7 +104,6 @@ local function KillVelocity(ent)
 	SetSubPhysMotionEnabled(ent, false)
 
 	timer.Simple(0, function() SetSubPhysMotionEnabled(ent, true) end)
-	--]]
 end
 
 function SWEP:Reset(keep_velocity)
@@ -570,6 +567,9 @@ end
 
 function SWEP:Deploy()
 	self:Reset()
+	
+	-- add this here because deploy from base is being overwritten
+	self:SetMuzzleOffset()
 	return true
 end
 
@@ -581,6 +581,11 @@ end
 
 function SWEP:ShouldDropOnDie()
 	return false
+end
+
+-- need this here for when the player dies
+function SWEP:PreDrop()
+	return
 end
 
 function SWEP:OnDrop()

@@ -12,9 +12,6 @@ local bg_colors = {
 hook.Add("TTTBeginRound","Benny:TTTVR:roleuihook", function()
 	local ply = LocalPlayer()
 
-	-- hijacking this hook to fix the weapon muzzle offset when round is force restarted
-	TTTVRMuzzleOffsetFix()
-
 	-- check that player is real and in VR
 	if(IsValid(ply) and CLIENT and istable(vrmod)) then
 		if(vrmod.IsPlayerInVR(ply)) then
