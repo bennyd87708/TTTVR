@@ -43,5 +43,7 @@ end
 -- get rid of right click to zoom function
 function SWEP:SecondaryAttack() return end
 
--- this doesn't inherit properly so it has to be reiterated here
+-- these don't inherit properly because of LUA ordering so they have to be reiterated here
 SWEP.AmmoEnt = "item_ammo_357_ttt"
+SWEP.Icon = "vgui/ttt/icon_scout"
+SWEP.PrintName = "rifle_name"

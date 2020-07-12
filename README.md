@@ -11,6 +11,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - Indicator for player's role at the start of the round
 - Gun muzzle position and melee weapon fixes
 - In-world Radar HUD with proper depth perception
+- Ability to suicide via headshot like in Pavlov VR
 - Triggerable traitor traps
 
 ## To-Do ##
@@ -34,6 +35,9 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - Held magneto stick props launch randomly
 - Not existing in the world until the round starts
 - TTT Hitboxes don't move with visible VRMod player
+- Suicide launches player's camera in direction of gun
+- throwing grenade can cause server crash - seems like an addon conflict, hard to recreate
+- crowbar swing can sometimes force weapon switch - seems like an addon conflict, hard to recreate
 
 ## FAQ ##
 

@@ -13,3 +13,4 @@ AddCSLuaFile "roleui.lua"
 
 -- runs serverside scripts
 include "tttvr/weaponreplacer.lua"
+include "tttvr/suicide.lua"

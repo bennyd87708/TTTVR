@@ -17,6 +17,7 @@ The default HTC Vive controls can be found [url=https://raw.githubusercontent.co
 	[*]Indicator for player's role at the start of the round
 	[*]Gun muzzle position and melee weapon fixes
 	[*]In-world Radar HUD with proper depth perception
+	[*]Ability to suicide via headshot like in Pavlov VR
 	[*]Triggerable traitor traps
 [/list]
 
@@ -25,7 +26,6 @@ The default HTC Vive controls can be found [url=https://raw.githubusercontent.co
 	[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]Client UI for health, timer, and role during round[/url]
 	[*]Replace CSS weapon view models
 	[*]Pickup weapons using hands
-	[*]Ability to kill yourself with certain weapons
 	[*]Search corpses, planted bomb, and DNA scanner UIs
 	[*]Editable controls
 	[*]Scoreboard UI
@@ -34,9 +34,6 @@ The default HTC Vive controls can be found [url=https://raw.githubusercontent.co
 	[*]Hover-over player info
 	[*]Support for TTT2
 [/list]
-
-[h1] Server [/h1]
-The server I use for testing addons and occasionally playing with friends is up 24/7 so I figured I'd open it up to anyone who may want to try out this addon and need a server to play on. The IP is: 162.199.201.8 and the server uses all the addons in [url=https://steamcommunity.com/sharedfiles/filedetails/?id=354293371]this collection[/url]. Have fun!
 
 [h1] Thank you! [/h1]
 I put a lot of work into this, so seeing you guys actually use it is awesome! If you do happen to enjoy it, have any memorable experiences, or make any content, please consider sharing in the comments! =)

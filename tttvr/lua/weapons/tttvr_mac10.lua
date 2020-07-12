@@ -13,5 +13,7 @@ function SWEP:SetMuzzleOffset()
 	TTTVRCurrentMuzzleOffset = Vector(29, 6.8, -4.5)
 end
 
--- this doesn't inherit properly so it has to be reiterated here
+-- these don't inherit properly because of LUA ordering so they have to be reiterated here
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
+SWEP.Icon = "vgui/ttt/icon_mac"
+SWEP.PrintName = "MAC10"

@@ -1,6 +1,7 @@
 ---- TTTVR Base Weapon: has SWEP functions/variables that should apply to all TTTVR weapons
 AddCSLuaFile()
 
+-- settings for the average TTTVR weapon
 SWEP.Spawnable = true
 SWEP.AllowDrop = true
 SWEP.InLoadoutFor = {}
@@ -50,7 +51,7 @@ end
 
 --[[ muzzle flashes come from world model position - no clue for now but maybe will fix here eventually
 -- enable ironsights boolean when actually kinda looking down the ironsights for slightly increased accuracy?
--- turns out it doesnt apply when in VR so keeping just in case it is needed later for scoping in
+-- turns out it maybe doesnt apply when in VR so keeping just in case it is needed later for scoping in
 function SWEP:Think()
 	if not (g_VR.viewModelMuzzle and vrmod.IsPlayerInVR(self:GetOwner())) then return end
 	local hmdpos, hmdang = vrmod.GetHMDPose(self:GetOwner())
