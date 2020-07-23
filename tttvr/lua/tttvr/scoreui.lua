@@ -9,7 +9,9 @@ function TTTVRScoreUIOpen()
 	CLSCORE.Panel:SetDraggable(false)
 	CLSCORE.Panel:SetVisible(true)
 	vrmod.MenuCreate("Benny:TTTVR:scoreui", 700, 500, CLSCORE.Panel, 1, Vector(10,6,13), Angle(0,-90,50), 0.03, true, function()
-		CLSCORE.Panel:SetVisible(false)
+		if IsValid(CLSCORE) then
+			CLSCORE.Panel:SetVisible(false)
+		end
 	end)
 end
 

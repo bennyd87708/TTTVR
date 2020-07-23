@@ -11,7 +11,8 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - Indicator for player's role at the start of the round
 - Gun muzzle position and melee weapon fixes
 - In-world Radar HUD with proper depth perception
-- Ability to suicide via headshot like in Pavlov VR
+- Can suicide via headshot like in Pavlov VR
+- Can pickup weapons with hands while holstered
 - Triggerable traitor traps
 
 ## To-Do ##
