@@ -7,6 +7,8 @@ local sample_scan	= surface.GetTextureID("vgui/ttt/sample_scan")
 local det_beacon	= surface.GetTextureID("vgui/ttt/det_beacon")
 local tbut_normal	= surface.GetTextureID("vgui/ttt/tbut_hand_line")
 local tbut_focus	= surface.GetTextureID("vgui/ttt/tbut_hand_filled")
+local ring_tex		= surface.GetTextureID("effects/select_ring")
+local magnifier_mat = Material("icon16/magnifier.png")
 
 -- keep track of how many blips there are for assigning UIDs
 local targets = {}
@@ -15,21 +17,254 @@ local count = 0
 -- arbitrary scale values for the different menus
 local defaultScale = 0.00118
 local handScale = 0.0015
+local tidScale = 0.001
+
+-- variable needed for tracking where the player is looking
+local MAX_TRACE_LENGTH = math.sqrt(3) * 2 * 16384
+
+-- keep track of focused target so we can close the menu when there is none
+local focused_tid = nil
 
 -- make sure we get some translation stuff for the text
 local GetTranslation = LANG.GetTranslation
 local GetPTranslation = LANG.GetParamTranslation
+local GetLang = LANG.GetUnsafeLanguageTable
+local GetRaw = LANG.GetRawTranslation
 
--- define font used for some text
+-- default classhint stuff for body search UI, edited later
+local key_params = {usekey = Key("+use", "USE"), walkkey = Key("+walk", "WALK")}
+local ClassHint = {
+	prop_ragdoll = {
+		name= "corpse",
+		hint= "corpse_hint",
+		fmt = function(ent, txt) return GetPTranslation(txt, key_params) end
+	}
+};
+
+-- define fonts used for some text
 surface.CreateFont("BiggerHST", {font = "HudSelectionText", size = 24})
+surface.CreateFont("TargetIDSmall2", {font = "TargetID", size = 16, weight = 1000})
 
--- function to see if player is looking near something using dot product - currently for traitor traps
+-- function to see if player is looking near something using dot product - currently for traitor traps and target ID
 function TTTVRLookingNear(pos)
 	local hmdpos, hmdang = vrmod.GetHMDPose(LocalPlayer())
 	local vec1 = hmdang:Forward()
 	local vec2 = (pos - hmdpos):GetNormalized()
 	local theta = math.deg(math.acos(vec1:Dot(vec2)))
 	return theta
+end
+
+-- we have to use this a few times so may as well make it a function
+-- finds an entity that the player is looking nearest at from a list of entities
+local function getFocusedEntFromTable(tbl, mintheta)
+	local focused_ent = nil
+	for k, ent in pairs(tbl) do
+		local theta = TTTVRLookingNear(ent:WorldSpaceCenter() or ent:GetPos())
+		if theta < mintheta then
+			mintheta = theta
+			focused_ent = ent
+		end
+	end
+	return focused_ent
+end
+
+-- function to draw targeted player info stolen from cl_targetid and modified for VR
+local function DrawTargetID(ent)
+	if (not IsValid(ent)) or ent.NoTarget then return end
+	
+	local client = LocalPlayer()
+	local L = GetLang()
+	
+	-- some bools for caching what kind of ent we are looking at
+	local target_traitor = false
+	local target_detective = false
+	local target_corpse = false
+
+	local text = nil
+	local color = COLOR_WHITE
+
+	-- if a vehicle, we identify the driver instead
+	if IsValid(ent:GetNWEntity("ttt_driver", nil)) then
+		ent = ent:GetNWEntity("ttt_driver", nil)
+
+		if ent == client then return end
+	end
+
+	local cls = ent:GetClass()
+	local minimal = GetConVar("ttt_minimal_targetid"):GetBool()
+	local hint = (not minimal) and (ent.TargetIDHint or ClassHint[cls])
+
+	if ent:IsPlayer() then
+		if ent:GetNWBool("disguised", false) then
+			client.last_id = nil
+
+			if client:IsTraitor() or client:IsSpec() then
+				text = ent:Nick() .. L.target_disg
+			else
+				-- Do not show anything
+				return
+			end
+
+			color = COLOR_RED
+		else
+			text = ent:Nick()
+			client.last_id = ent
+		end
+
+		local _ -- Stop global clutter
+		-- in minimalist targetID, colour nick with health level
+		if minimal then
+			_, color = util.HealthToString(ent:Health(), ent:GetMaxHealth())
+		end
+
+		if client:IsTraitor() and GetRoundState() == ROUND_ACTIVE then
+			target_traitor = ent:IsTraitor()
+		end
+
+		target_detective = GetRoundState() > ROUND_PREP and ent:IsDetective() or false
+
+	elseif cls == "prop_ragdoll" then
+		-- only show this if the ragdoll has a nick, else it could be a mattress
+		if CORPSE.GetPlayerNick(ent, false) == false then return end
+
+		target_corpse = true
+
+		if CORPSE.GetFound(ent, false) or not DetectiveMode() then
+			text = CORPSE.GetPlayerNick(ent, "A Terrorist")
+		else
+			text  = L.target_unid
+			color = COLOR_YELLOW
+		end
+	elseif not hint then
+		-- Not something to ID and not something to hint about
+		return
+	end
+
+	local x = 0
+	-- edited y position to center it
+	local y = -57
+
+	local w, h = 0,0 -- text width/height, reused several times
+
+	--[[ usually draws blue or red circle around cursor but doesn't look right here so get rid of it
+	if target_traitor or target_detective then
+		surface.SetTexture(ring_tex)
+
+		if target_traitor then
+			surface.SetDrawColor(255, 0, 0, 200)
+		else
+			surface.SetDrawColor(0, 0, 255, 220)
+		end
+		surface.DrawTexturedRect(x-32, y-32, 64, 64)
+	end
+	--]]
+
+	y = y + 30
+	local font = "TargetID"
+	surface.SetFont( font )
+
+	-- Draw main title, ie. nickname
+	if text then
+		w, h = surface.GetTextSize( text )
+
+		x = x - w / 2
+
+		draw.SimpleText( text, font, x+1, y+1, COLOR_BLACK )
+		draw.SimpleText( text, font, x, y, color )
+
+		-- for ragdolls searched by detectives, add icon
+		if ent.search_result and client:IsDetective() then
+			-- if I am detective and I know a search result for this corpse, then I
+			-- have searched it or another detective has
+			surface.SetMaterial(magnifier_mat)
+			surface.SetDrawColor(200, 200, 255, 255)
+			surface.DrawTexturedRect(x + w + 5, y, 16, 16)
+		end
+
+		y = y + h + 4
+	end
+
+	-- Minimalist target ID only draws a health-coloured nickname, no hints, no
+	-- karma, no tag
+	if minimal then return end
+
+	-- Draw subtitle: health or type
+	local clr = Color(200,200,200,255)
+	if ent:IsPlayer() then
+		text, clr = util.HealthToString(ent:Health(), ent:GetMaxHealth())
+
+		-- HealthToString returns a string id, need to look it up
+		text = L[text]
+	elseif hint then
+		text = GetRaw(hint.name) or hint.name
+	else
+		return
+	end
+	font = "TargetIDSmall2"
+
+	surface.SetFont( font )
+	w, h = surface.GetTextSize( text )
+	x = - w / 2
+
+	draw.SimpleText( text, font, x+1, y+1, COLOR_BLACK )
+	draw.SimpleText( text, font, x, y, clr )
+
+	font = "TargetIDSmall"
+	surface.SetFont( font )
+
+	-- Draw second subtitle: karma
+	if ent:IsPlayer() and KARMA.IsEnabled() then
+		text, clr = util.KarmaToString(ent:GetBaseKarma())
+
+		text = L[text]
+
+		w, h = surface.GetTextSize( text )
+		y = y + h + 5
+		x = - w / 2
+
+		draw.SimpleText( text, font, x+1, y+1, COLOR_BLACK )
+		draw.SimpleText( text, font, x, y, clr )
+	end
+
+	-- Draw key hint
+	if hint and hint.hint then
+		if not hint.fmt then
+			text = GetRaw(hint.hint) or hint.hint
+		else
+			text = "Point at and right grip to search."
+		end
+
+		w, h = surface.GetTextSize(text)
+		x = - w / 2
+		y = y + h + 5
+		draw.SimpleText( text, font, x+1, y+1, COLOR_BLACK )
+		draw.SimpleText( text, font, x, y, COLOR_LGRAY )
+	end
+
+	text = nil
+
+	if target_traitor then
+		text = L.target_traitor
+		clr = COLOR_RED
+	elseif target_detective then
+		text = L.target_detective
+		clr = COLOR_BLUE
+	elseif ent.sb_tag and ent.sb_tag.txt != nil then
+		text = L[ ent.sb_tag.txt ]
+		clr = ent.sb_tag.color
+	elseif target_corpse and client:IsActiveTraitor() and CORPSE.GetCredits(ent, 0) > 0 then
+		text = L.target_credits
+		clr = COLOR_YELLOW
+	end
+
+	if text then
+		w, h = surface.GetTextSize( text )
+		x = - w / 2
+		y = y + h + 5
+
+		draw.SimpleText( text, font, x+1, y+1, COLOR_BLACK )
+		draw.SimpleText( text, font, x, y, clr )
+	end
 end
 
 -- DrawHand stolen from cl_tbuttons and modified for VR
@@ -39,6 +274,7 @@ local function DrawHand(but, size, offset, texture, drawcolor, textcolor, dis)
 		surface.SetTexture(tbut_normal)
 		surface.SetDrawColor(255, 255, 255, 200 * (1 - d))
 		surface.DrawTexturedRect(-16, -16, 32, 32)
+		
 		if d > 0 and (but == TBHUD.focus_ent) then
 			
 			-- draw extra graphics and information for button when it's in-focus
@@ -68,7 +304,7 @@ local function DrawHand(but, size, offset, texture, drawcolor, textcolor, dis)
 
 			y = y + 12
 			surface.SetTextPos(x, y)
-			surface.DrawText("Left grip to activate")
+			surface.DrawText("Right grip to activate")
 		end
 	end
 end	
@@ -137,8 +373,14 @@ function CloseTTTVRTarget(id)
 end
 
 -- needed a function to check if the target of the blip still exists because the updating is done within a prerender
--- might be better for performance to allow the menus to open and close every frame as needed than to use this check
+-- definitely not better for performance to allow the menus to open and close every frame as needed than to use this check, but can probably find a better way
 local function targetExists(tgt)
+	if(tgt == focused_tid) then return true end
+	for k, tgt2 in pairs(TBHUD.buttons) do
+		if(tostring(tgt2) == tostring(tgt)) then
+			return true
+		end
+	end
 	for k, tgt2 in pairs(RADAR.targets) do
 		if(tostring(tgt2) == tostring(tgt)) then
 			return true
@@ -155,11 +397,6 @@ local function targetExists(tgt)
 		end
 	end
 	for k, tgt2 in pairs(RADAR.samples) do
-		if(tostring(tgt2) == tostring(tgt)) then
-			return true
-		end
-	end
-	for k, tgt2 in pairs(TBHUD.buttons) do
 		if(tostring(tgt2) == tostring(tgt)) then
 			return true
 		end
@@ -183,7 +420,7 @@ function DrawTTTVRTarget(tgt, size, offset, texture, textcolor, drawcolor, scl, 
 	
 	-- create the four separate VRMod menus relative to the world for depth perception purposes
 	for i=1,4 do
-		vrmod.MenuCreate("Benny:TTTVR:quadrant"..i..id, size, size, nil, 0, tgt.pos, Angle(0,0,0), 1, false, nil)
+		vrmod.MenuCreate("Benny:TTTVR:quadrant"..i..id, size, size, nil, 0, (tgt.pos or tgt:GetPos()), Angle(0,0,0), 1, false, nil)
 	end
 	
 	-- add hook to adjust and draw the menu each frame
@@ -196,8 +433,23 @@ function DrawTTTVRTarget(tgt, size, offset, texture, textcolor, drawcolor, scl, 
 		end
 	
 		-- math to update the yaw and pitch for the menu to face towards the headset at all times
+		local pos
+		if tgt.pos then
+			pos = tgt.pos
+		elseif(IsValid(tgt)) then
+			pos = tgt:GetPos()
+			if(tgt:IsPlayer()) then
+				if(not tgt:Alive()) then
+					CloseTTTVRTarget(id)
+				end
+			end
+		else
+			CloseTTTVRTarget(id)
+			return
+		end
+			
 		local player_pos = vrmod.GetHMDPos(ply)
-		local dis = player_pos - tgt.pos
+		local dis = player_pos - pos
 		local pitch = math.deg(math.atan2(-dis.z, dis:Length2D()))
 		local yaw = math.deg(math.atan2(-dis.x, dis.y))
 		
@@ -212,9 +464,12 @@ function DrawTTTVRTarget(tgt, size, offset, texture, textcolor, drawcolor, scl, 
 		g_VR.menus["Benny:TTTVR:quadrant3"..id].ang = Angle(pitch + 90, yaw + 90, 0)
 		g_VR.menus["Benny:TTTVR:quadrant4"..id].ang = Angle(180, yaw, pitch - 90)
 		
-		-- update each quadrant's scale and perform rotation before drawing so that the four quadrants connect
+		-- update each quadrant's scale and position and perform rotation before drawing so that the four quadrants connect
+		-- the quadrants are like in math: 1 is +,+ ; 2 is -,+ ; 3 is -,- ; 4 is +,-
 		for i=1,4 do
-			-- using g_VR global directly is bad practice but there isn't an API function for scaling a menu yet so this is the only way
+			
+			-- using g_VR global directly is bad practice but there aren't API functions for editing a menu yet so this is the only way
+			g_VR.menus["Benny:TTTVR:quadrant"..i..id].pos = pos
 			g_VR.menus["Benny:TTTVR:quadrant"..i..id].scale = scale
 			mat:Rotate(Angle(0,90,0))
 			vrmod.MenuRenderStart("Benny:TTTVR:quadrant"..i..id)
@@ -226,7 +481,6 @@ function DrawTTTVRTarget(tgt, size, offset, texture, textcolor, drawcolor, scl, 
 			
 			-- finally draw on the quadrant
 			-- draw must be centered at 0,0 so that it paints all four quadrants
-			-- the quadrants are like in math: 1 is +,+ ; 2 is -,+ ; 3 is -,- ; 4 is +,-
 			drawFunc(tgt, size, offset, texture, drawcolor, textcolor, dis)
 			
 			cam.PopModelMatrix()
@@ -237,31 +491,62 @@ end
 
 -- RADAR:Draw stolen from cl_radar and modified for VR equivalent functions
 -- all blips scaled up to their full sprite resolution instead of tiny default
-local function TTTVRRadarDraw(ply)
-	if(GetRoundState() ~= ROUND_ACTIVE) then return end
-	local focused = nil
+local function TTTVRHudDraw(ply)
 	
-	-- Check traitor trap hand indicators to figure out if the player is looking at any and to draw the closest one as focused
-	if (TBHUD.buttons_count ~= 0) and ply:IsActiveTraitor() then
-		local buttons = {}
-		local mintheta = 20
-		for k, but in pairs(TBHUD.buttons) do
-			if IsValid(but) and but.IsUsable then
-				local theta = TTTVRLookingNear(but:GetPos())
-				if theta < mintheta then
-					mintheta = theta
-					focused = but
-				end
+	-- Check if player is looking at any players or corpses to draw targetid
+	focused_tid = nil
+	
+	-- first check using a direct line trace coming from the headset
+	local hmdpos = vrmod.GetHMDPos(ply)
+	local hmdang = vrmod.GetHMDAng(ply):Forward()
+	hmdang:Mul(MAX_TRACE_LENGTH)
+	hmdang:Add(hmdpos)
+
+	local trace = util.TraceLine({
+		start = hmdpos,
+		endpos = hmdang,
+		mask = MASK_SHOT,
+		filter = ply:GetObserverMode() == OBS_MODE_IN_EYE and {ply, ply:GetObserverTarget()} or ply
+	})
+	focused_tid = trace.Entity
+	
+	-- if the player isn't looking directly at any targetable entity, check their peripheral vision because it's hard to look directly at something
+	if not IsValid(focused_tid) then 
+		local tid_ents ={}
+		for k, ent in pairs(ents.GetAll()) do
+			if (ent:IsPlayer() or ent:IsRagdoll()) and ply:IsLineOfSightClear(ent) then
+				table.insert(tid_ents, ent)
 			end
 		end
-		TBHUD.focus_ent = focused
-		if focused then
+		focused_tid = getFocusedEntFromTable(tid_ents, 5)
+	end
+
+	-- if they are looking at anything, draw the appropriate menu
+	if IsValid(focused_tid) then
+		focused_tid.pos = focused_tid:WorldSpaceCenter()
+		DrawTTTVRTarget(focused_tid, 128, 0, nil, nil, nil, tidScale, DrawTargetID)
+	end
+	
+	-- The rest of the hud elements don't need to be drawn unless the round is active
+	if(GetRoundState() ~= ROUND_ACTIVE) then return end
+	
+	-- Check traitor trap hand indicators to figure out if the player is looking at any and to draw the closest one as focused
+	local focused_hand = nil
+	if (TBHUD.buttons_count ~= 0) and ply:IsActiveTraitor() then
+		local buttons = {}
+		for k, but in pairs(TBHUD.buttons) do
+			if IsValid(but) and but.IsUsable then
+				table.insert(buttons, but)
+			end
+		end
+		local focused_hand = getFocusedEntFromTable(buttons, 15)
+		TBHUD.focus_ent = focused_hand
+		if IsValid(focused_hand) then
 			TBHUD.focus_stick = CurTime() + 0.1
 		end
 		
 		-- yes it takes two loops per frame - fight me it's better than closing and reopening the menus every frame, trust me
 		for k, but in pairs(TBHUD.buttons) do
-			but.pos = but:GetPos()
 			DrawTTTVRTarget(but, 256, 0, tbut_normal, nil, nil, handScale, DrawHand)
 		end
 	end
@@ -327,7 +612,7 @@ end
 hook.Add("VRUtilStart", "Benny:TTTVR:radarstarthook", function(ply)
 	-- draw the VR radar every frame
 	hook.Add("PreRender", "Benny:TTTVR:radarrenderhook", function()
-		TTTVRRadarDraw(ply)
+		TTTVRHudDraw(ply)
 	end)
 	
 	-- close all the VR blips when a round ends

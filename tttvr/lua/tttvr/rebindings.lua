@@ -17,7 +17,6 @@ hook.Add("VRUtilAllowDefaultAction","Benny:TTTVR:buymenuuiblockhook", function(A
 	-- otherwise just prevent all the other default binds
 	return not(	ActionName == "boolean_chat" or
 				ActionName == "boolean_changeweapon" or
-				ActionName == "boolean_reload" or
 				ActionName == "boolean_use" or
 				ActionName == "boolean_left_pickup" or
 				ActionName == "boolean_secondaryfire" or
@@ -77,10 +76,6 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 			end
 			return
 		end
-		
-		-- close VR buymenu if it is open
-		if vrmod.MenuExists("Benny:TTTVR:buymenuui") and IsValid(TTTVReqframe) then
-			vrmod.MenuClose("Benny:TTTVR:buymenuui")
 			
 		-- otherwise, open the VR buymenu:
 		else
@@ -89,8 +84,11 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 			TTTVRBuyMenuOpen()
 			
 			-- draws the DFrame using VRMod API on the left hand
-			vrmod.MenuCreate("Benny:TTTVR:buymenuui", 570, 412, TTTVReqframe, 1, Vector(10,6,13), Angle(0,-90,50), 0.03, true, function()
-				TTTVReqframe:Remove()
+			-- needs to wait one frame so the DFrame is ready when VRMod tries to draw
+			timer.Simple(0, function()
+				vrmod.MenuCreate("Benny:TTTVR:buymenuui", 570, 412, TTTVReqframe, 1, Vector(10,6,13), Angle(0,-90,50), 0.03, true, function()
+					TTTVReqframe:Remove()
+				end)
 			end)
 		end
 		return
@@ -133,14 +131,8 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 	end
 	--]]
 	
-	-- bind reload to the default use button
+	-- add some other code to the default use button
 	if ActionName == "boolean_use" then
-		ply:ConCommand(State and "+reload" or "-reload")
-		return
-	end
-	
-	-- bind use to the default reload button
-	if ActionName == "boolean_reload" then
 		if TBHUD:PlayerIsFocused() then
 			TBHUD:UseFocused()
 		else

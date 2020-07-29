@@ -102,8 +102,10 @@ function TTTVRBuyMenuOpen()
 		return
 	end
 
-	-- Close any existing VRMod traitor menu (EDITED)
-	if TTTVReqframe and IsValid(TTTVReqframe) then vrmod.MenuClose("Benny:TTTVR:buymenuui") end
+	-- Close any existing VRMod buymenu menu (EDITED)
+	if (TTTVReqframe and IsValid(TTTVReqframe)) or vrmod.MenuExists("Benny:TTTVR:buymenuui") then
+		vrmod.MenuClose("Benny:TTTVR:buymenuui")
+	end
 
 	local credits = ply:GetCredits()
 	local can_order = credits > 0

@@ -16,9 +16,10 @@ The default HTC Vive controls can be found [url=https://raw.githubusercontent.co
 	[*]Round end UI (show winning team and highlights)
 	[*]Indicator for player's role at the start of the round
 	[*]Gun muzzle position and melee weapon fixes
-	[*]In-world Radar HUD with proper depth perception
+	[*]In-world HUD with proper depth perception
 	[*]Can suicide via headshot like in Pavlov VR
 	[*]Can pickup weapons with hands while holstered
+	[*]Searchable dead bodies
 	[*]Triggerable traitor traps
 [/list]
 
@@ -26,13 +27,11 @@ The default HTC Vive controls can be found [url=https://raw.githubusercontent.co
 [list]
 	[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]Client UI for health, timer, and role during round[/url]
 	[*]Replace CSS weapon view models
-	[*]Pickup weapons using hands
-	[*]Search corpses, planted bomb, and DNA scanner UIs
+	[*]Planted bomb and DNA scanner UIs
 	[*]Editable controls
 	[*]Scoreboard UI
 	[*]Spectator Mode
 	[*]Game status messages
-	[*]Hover-over player info
 	[*]Support for TTT2
 [/list]
 
