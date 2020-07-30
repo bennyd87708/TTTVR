@@ -75,23 +75,16 @@ hook.Add("VRUtilEventInput","Benny:TTTVR:bindhook", function(ActionName, State)
 				TTTVRScoreUIOpen()
 			end
 			return
-		end
-			
-		-- otherwise, open the VR buymenu:
 		else
 		
-			-- draws the UI to TTTVReqframe variable using function from cl_equip
-			TTTVRBuyMenuOpen()
-			
-			-- draws the DFrame using VRMod API on the left hand
-			-- needs to wait one frame so the DFrame is ready when VRMod tries to draw
-			timer.Simple(0, function()
-				vrmod.MenuCreate("Benny:TTTVR:buymenuui", 570, 412, TTTVReqframe, 1, Vector(10,6,13), Angle(0,-90,50), 0.03, true, function()
-					TTTVReqframe:Remove()
-				end)
-			end)
+			-- toggle buy menu UI if button is pressed while there is an active round and the player is a detective or traitor
+			if vrmod.MenuExists("Benny:TTTVR:buymenuui") then
+				vrmod.MenuClose("Benny:TTTVR:buymenuui")
+			else
+				TTTVRBuyMenuOpen()
+			end
+			return
 		end
-		return
 	end
 	
 	-- bind drop weapon to the default secondary fire button

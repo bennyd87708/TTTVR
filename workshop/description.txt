@@ -1,38 +1,34 @@
 Pavlov VR is great, but what if your friends don't all have VR?
 
 [h1] About [/h1]
-This is currently a simple addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI additions and soon through VR weapon replacements.
+This is currently a simple addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI additions, VR weapon replacements, and other fun features.
 
 [h1] Usage [/h1]
-Make sure VR users and the server both have the VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It won't start if you are in spectator mode). To return to normal, type vrmod_exit in console.
+Make sure VR users and the server both have Catse's VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It won't start if you are in spectator mode). To return to normal, type vrmod_exit in console.
 
 [h1] Controls [/h1]
-The default HTC Vive controls can be found [url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls.jpg]HERE[/url]. You can check the official VRMod addon page to adapt them for other controllers. For the time being, the controls aren't editable straight through the addon unless you know what you are doing with lua, but they might be rebindable with SteamVR.
+The default HTC Vive controls can be found [url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls.jpg]HERE[/url]. You can check the official VRMod addon page to see how the controls adapt for other controllers and can use SteamVR bindings to alter them to your liking.
 
 [h1] Features [/h1]
 [list]
 	[*]Weapon selection UI ported from TTT
-	[*]Buy menu for detectives and traitors
-	[*]Round end UI (show winning team and highlights)
+	[*]Default TTT UI ports (buy menu, round info, etc.)
+	[*]VR versions of default TTT HUD elements (radar, traitor traps, etc.)
 	[*]Indicator for player's role at the start of the round
 	[*]Gun muzzle position and melee weapon fixes
-	[*]In-world HUD with proper depth perception
-	[*]Can suicide via headshot like in Pavlov VR
-	[*]Can pickup weapons with hands while holstered
-	[*]Searchable dead bodies
-	[*]Triggerable traitor traps
+	[*]Ability to suicide with headshot like in Pavlov VR
+	[*]Can physically pickup weapons with hands while holstered
 [/list]
 
 [h1] To-Do [/h1]
 [list]
 	[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]Client UI for health, timer, and role during round[/url]
-	[*]Replace CSS weapon view models
-	[*]Planted bomb and DNA scanner UIs
-	[*]Editable controls
-	[*]Scoreboard UI
-	[*]Spectator Mode
-	[*]Game status messages
-	[*]Support for TTT2
+	[*]Fix CSS weapon viewmodels so weapons have backsides
+	[*]Planted bomb, DNA scanner, and scoreboard UIs
+	[*]Better default controls for each controller
+	[*]Game status messages and many other similar UI elements
+	[*]Sync TTT Hitboxes with the VRMod player's model
+	[*]Support for TTT2 (depends on how different they end up being)
 [/list]
 
 [h1] Thank you! [/h1]

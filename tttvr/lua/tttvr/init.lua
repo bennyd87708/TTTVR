@@ -10,8 +10,10 @@ AddCSLuaFile "scoreui.lua"
 AddCSLuaFile "radarui.lua"
 AddCSLuaFile "muzzleoffset.lua"
 AddCSLuaFile "roleui.lua"
+AddCSLuaFile "spectator.lua"
 
 -- runs serverside scripts
 include "tttvr/weaponreplacer.lua"
 include "tttvr/suicide.lua"
 include "tttvr/pickup.lua"
+include "tttvr/spectator.lua"

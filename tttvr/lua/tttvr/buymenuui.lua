@@ -383,6 +383,13 @@ function TTTVRBuyMenuOpen()
 	--]]
 	
 	TTTVReqframe = dframe
+	
+	-- draws the DFrame using VRMod API on the left hand
+	timer.Simple(0, function()
+		vrmod.MenuCreate("Benny:TTTVR:buymenuui", 570, 412, TTTVReqframe, 1, Vector(10,6,13), Angle(0,-90,50), 0.03, true, function()
+			TTTVReqframe:Remove()
+		end)
+	end)
 end
 
 local function ReceiveEquipment()
