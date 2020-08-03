@@ -1,19 +1,22 @@
 Pavlov VR is great, but what if your friends don't all have VR?
 
 [h1] About [/h1]
-This is currently a simple addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI additions, VR weapon replacements, and other fun features.
+This is currently a simple addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI ports, VR weapon replacements, and other fun features.
 
 [h1] Usage [/h1]
-Make sure VR users and the server both have Catse's VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It won't start if you are in spectator mode). To return to normal, type vrmod_exit in console.
+Make sure that you have the LATEST VRMod module files! Then make sure VR users and the server all have Catse's VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It will error if you are in spectator mode!). To return to normal, type vrmod_exit in console.
 
 [h1] Controls [/h1]
-The default HTC Vive controls can be found [url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls.jpg]HERE[/url]. You can check the official VRMod addon page to see how the controls adapt for other controllers and can use SteamVR bindings to alter them to your liking.
+Default controller bindings are included for the following controllers:
+-[url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls_vive.png]HTC Vive[/url]
+-[url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls_index.png]Valve Index/Knuckles[/url]
+You can view and edit the bindings using SteamVR's binding editor while in GMOD VR.
+If you use a different controller and want to help me setup defaults, please add me on Steam!
 
 [h1] Features [/h1]
 [list]
-	[*]Weapon selection UI ported from TTT
-	[*]Default TTT UI ports (buy menu, round info, etc.)
-	[*]VR versions of default TTT HUD elements (radar, traitor traps, etc.)
+	[*]Default TTT GUI ports (weapon select, buy menu, round info, etc.)
+	[*]VR versions of TTT HUD elements (radar, traitor traps, etc.)
 	[*]Indicator for player's role at the start of the round
 	[*]Gun muzzle position and melee weapon fixes
 	[*]Ability to suicide with headshot like in Pavlov VR
@@ -24,11 +27,9 @@ The default HTC Vive controls can be found [url=https://raw.githubusercontent.co
 [list]
 	[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]Client UI for health, timer, and role during round[/url]
 	[*]Fix CSS weapon viewmodels so weapons have backsides
-	[*]Planted bomb, DNA scanner, and scoreboard UIs
-	[*]Better default controls for each controller
+	[*]DNA Scanner and Scoreboard UIs
 	[*]Game status messages and many other similar UI elements
 	[*]Sync TTT Hitboxes with the VRMod player's model
-	[*]Support for TTT2 (depends on how different they end up being)
 [/list]
 
 [h1] Thank you! [/h1]

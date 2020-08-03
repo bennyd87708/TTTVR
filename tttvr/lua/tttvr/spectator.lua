@@ -30,9 +30,8 @@ else
 	local function PlayerDeath()
 		
 		-- keep track of everything important to alter camera position
-		local ply = LocalPlayer()
 		local eyes
-		local ipd = VRMOD_GetViewParameters().eyeToHeadTransformPosRight.x*2
+		local offset = vrmod.GetRightEyePos() - vrmod.GetEyePos()
 		
 		-- need to check if the player is in VR on death because we are overwriting the default net receive for this message
 		-- luckily it doesn't do much, so it's really easy to handle ourselves below
@@ -42,21 +41,21 @@ else
 			hook.Add("VRMod_PreRender", "Benny:TTTVR:ragdollinglefthook", function()
 			
 				-- first person ragdolling code stolen from cl_init
-				local tgt = ply:GetObserverTarget()
+				local tgt = LocalPlayer():GetObserverTarget()
 				if IsValid(tgt) and (not tgt:IsPlayer()) then
 					eyes = tgt:LookupAttachment("eyes") or 0
 					eyes = tgt:GetAttachment(eyes)
 				end
 				
 				if eyes then
-					g_VR.view.origin = eyes.Pos + eyes.Ang:Right()*-(ipd*0.5*g_VR.scale)
+					g_VR.view.origin = eyes.Pos + offset
 					g_VR.view.angles = eyes.Ang
 				end
 			end)
 			
 			hook.Add("VRMod_PreRenderRight", "Benny:TTTVR:ragdollingrighthook", function()
 				if eyes then
-					g_VR.view.origin = eyes.Pos + eyes.Ang:Right()*(ipd*0.5*g_VR.scale)
+					g_VR.view.origin = eyes.Pos - offset
 					g_VR.view.angles = eyes.Ang
 				end
 			end)

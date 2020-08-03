@@ -7,9 +7,9 @@ hook.Add("EntityFireBullets", "Benny:TTTVR:suicidehook", function(ply, bullet)
 	if(IsValid(ply) and istable(vrmod)) then
 		if(vrmod.IsPlayerInVR(ply)) then
 			
-			-- check if the shot hits the player's own head using a box 1.5x the size of their head hitbox so it's not difficult to trigger
+			-- check if the shot hits the player's own head using a box 1.3x the size of their head hitbox so it's not difficult to trigger
 			local mins, maxs = ply:GetHitBoxBounds(0, 0)
-			local pos, normal, frac = util.IntersectRayWithOBB(bullet.Src, bullet.Dir*100, vrmod.GetHMDPos(ply), vrmod.GetHMDAng(ply), mins*1.5, maxs*1.5)
+			local pos, normal, frac = util.IntersectRayWithOBB(bullet.Src, bullet.Dir*100, vrmod.GetHMDPos(ply), vrmod.GetHMDAng(ply), mins*1.3, maxs*1.3)
 			
 			-- if it does, kill the person as if they were shot
 			if pos then
@@ -20,7 +20,7 @@ hook.Add("EntityFireBullets", "Benny:TTTVR:suicidehook", function(ply, bullet)
 				suicide:SetDamageType(2)
 				suicide:SetInflictor(ply:GetActiveWeapon())
 				
-				-- for some reason, no matter what I do, the camera kinda launches towards the gun
+				-- these don't really do anything but just in case
 				suicide:SetDamageForce(bullet.Dir)
 				suicide:SetDamagePosition(pos)
 				

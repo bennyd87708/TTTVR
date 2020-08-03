@@ -272,9 +272,11 @@ local function TTTVRShowSearchScreen(search_raw, client)
 	local pos, ang = WorldToLocal(vrmod.GetRightHandPos(client) + tmp:Forward()*-9 + tmp:Right()*-11 + tmp:Up()*-7, tmp, vrmod.GetOriginPos(), vrmod.GetOriginAng())
 		
 	vrmod.MenuCreate("Benny:TTTVR:searchui", w, h, dframe, 4, pos, ang, 0.03, true, function()
-		dframe:SetVisible(false)
-		dframe:Remove()
-		dframe = nil
+		if IsValid(dframe) then
+			dframe:SetVisible(false)
+			dframe:Remove()
+			dframe = nil
+		end
 	end)
 end
 

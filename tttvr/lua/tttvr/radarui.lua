@@ -19,11 +19,13 @@ local defaultScale = 0.00118
 local handScale = 0.0015
 local tidScale = 0.001
 
--- variable needed for tracking where the player is looking
+-- variables needed for tracking where the player is looking and how far away they are
 local MAX_TRACE_LENGTH = math.sqrt(3) * 2 * 16384
+local mindistance = 84
+local minfrac = mindistance/MAX_TRACE_LENGTH
 
--- keep track of focused target so we can close the menu when there is none
-local focused_tid = nil
+-- keep track of focused target so we can close the menu when there is none and +use the right target in actions.lua
+TTTVR_focused_target = nil
 
 -- make sure we get some translation stuff for the text
 local GetTranslation = LANG.GetTranslation
@@ -231,7 +233,7 @@ local function DrawTargetID(ent)
 		if not hint.fmt then
 			text = GetRaw(hint.hint) or hint.hint
 		else
-			text = "Point at and right grip to search."
+			text = "Right grip to search."
 		end
 
 		w, h = surface.GetTextSize(text)
@@ -375,7 +377,7 @@ end
 -- needed a function to check if the target of the blip still exists because the updating is done within a prerender
 -- definitely not better for performance to allow the menus to open and close every frame as needed than to use this check, but can probably find a better way
 local function targetExists(tgt)
-	if(tgt == focused_tid) then return true end
+	if(tgt == TTTVR_focused_target) then return true end
 	for k, tgt2 in pairs(TBHUD.buttons) do
 		if(tostring(tgt2) == tostring(tgt)) then
 			return true
@@ -489,14 +491,13 @@ function DrawTTTVRTarget(tgt, size, offset, texture, textcolor, drawcolor, scl, 
 	end)
 end
 
--- RADAR:Draw stolen from cl_radar and modified for VR equivalent functions
--- all blips scaled up to their full sprite resolution instead of tiny default
-local function TTTVRHudDraw(ply)
+-- handles the TargetID HUD element
+local function TargetID(ply)
 	
-	-- Check if player is looking at any players or corpses to draw targetid
-	focused_tid = nil
+	-- variable for the currently focused target is global for other scripts (like actions.lua)
+	TTTVR_focused_target = nil
 	
-	-- first check using a direct line trace coming from the headset
+	-- first check using a direct line trace coming from the headset because it's easiest
 	local hmdpos = vrmod.GetHMDPos(ply)
 	local hmdang = vrmod.GetHMDAng(ply):Forward()
 	hmdang:Mul(MAX_TRACE_LENGTH)
@@ -508,24 +509,41 @@ local function TTTVRHudDraw(ply)
 		mask = MASK_SHOT,
 		filter = ply:GetObserverMode() == OBS_MODE_IN_EYE and {ply, ply:GetObserverTarget()} or ply
 	})
-	focused_tid = trace.Entity
+	
+	if trace.Hit and IsValid(trace.Entity) then
+		if trace.Entity:IsPlayer() or trace.Entity:IsRagdoll() or (trace.Entity.CanUseKey and trace.Entity.UseOverride and trace.Fraction < minfrac) then
+			TTTVR_focused_target = trace.Entity
+		end
+	end
 	
 	-- if the player isn't looking directly at any targetable entity, check their peripheral vision because it's hard to look directly at something
-	if not IsValid(focused_tid) then 
+	if not IsValid(TTTVR_focused_target) then 
 		local tid_ents ={}
 		for k, ent in pairs(ents.GetAll()) do
-			if (ent:IsPlayer() or ent:IsRagdoll()) and ply:IsLineOfSightClear(ent) then
+			
+			-- only check the entity if it is close enough to the player, within line of sight, and useable
+			if ((ent:IsPlayer() or ent:IsRagdoll() or (ent.CanUseKey and ent.UseOverride and (ply:GetPos():DistToSqr(ent:GetPos()) < minsquared))) and ply:IsLineOfSightClear(ent)) then
 				table.insert(tid_ents, ent)
 			end
 		end
-		focused_tid = getFocusedEntFromTable(tid_ents, 5)
+		
+		-- checks within 7 degrees of FOV
+		TTTVR_focused_target = getFocusedEntFromTable(tid_ents, 7)
 	end
 
 	-- if they are looking at anything, draw the appropriate menu
-	if IsValid(focused_tid) then
-		focused_tid.pos = focused_tid:WorldSpaceCenter()
-		DrawTTTVRTarget(focused_tid, 128, 0, nil, nil, nil, tidScale, DrawTargetID)
+	if IsValid(TTTVR_focused_target) then
+		TTTVR_focused_target.pos = TTTVR_focused_target:WorldSpaceCenter()
+		DrawTTTVRTarget(TTTVR_focused_target, 128, 0, nil, nil, nil, tidScale, DrawTargetID)
 	end
+end
+
+-- RADAR:Draw stolen from cl_radar and modified for VR equivalent functions
+-- all blips scaled up to their full sprite resolution instead of tiny default
+local function TTTVRHudDraw(ply)
+	
+	-- check if the player is targetting anything and draw targetid info
+	TargetID(ply)
 	
 	-- The rest of the hud elements don't need to be drawn unless the round is active
 	if(GetRoundState() ~= ROUND_ACTIVE) then return end
