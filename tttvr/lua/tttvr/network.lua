@@ -6,18 +6,20 @@ local mindistance = 84
 local minsquared = mindistance*mindistance
 util.AddNetworkString("TTTVRUseOverride")
 net.Receive("TTTVRUseOverride", function(len, ply)
-
+	
 	-- reads what entity the client is interacting with
 	local ent = net.ReadEntity()
-	local dis = ply:GetPos():DistToSqr(ent:GetPos())
-	print(Math.sqrt(dis))
+	local dis = vrmod.GetHMDPos(ply):DistToSqr(ent:GetPos())
 	
 	-- if it isn't close enough and interactable, don't do anything unless they are a spectator searching a body, in which case send the client the corpse info
-	if not ((ent:IsRagdoll() or (ent.CanUseKey and ent.UseOverride)) and (dis < minsquared) and ply:IsLineOfSightClear(ent)) then
-		if ply:IsSpec() and ent:IsRagdoll() then
+	if ply:IsSpec() then
+		if ent:IsRagdoll() then
 			CORPSE.ShowSearch(ply, ent, false)
 		end
+		return
 	end
+	
+	if not ((ent:IsRagdoll() or (ent.CanUseKey and ent.UseOverride)) and (dis < minsquared) and ply:IsLineOfSightClear(ent)) then return end
 	
 	-- otherwise, send the client the corpse search or +use override info
 	if ent:IsRagdoll() then

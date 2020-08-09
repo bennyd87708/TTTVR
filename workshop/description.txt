@@ -19,7 +19,7 @@ If you use a different controller and want to help me setup defaults, please add
 	[*]VR versions of TTT HUD elements (radar, traitor traps, etc.)
 	[*]Indicator for player's role at the start of the round
 	[*]Gun muzzle position and melee weapon fixes
-	[*]Ability to suicide with headshot like in Pavlov VR
+	[*]Ability to suicide with headshot like in Pavlov VR (toggleable with tttvr_suicide cvar)
 	[*]Can physically pickup weapons with hands while holstered
 [/list]
 

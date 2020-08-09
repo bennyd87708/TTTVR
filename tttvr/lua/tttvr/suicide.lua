@@ -1,8 +1,14 @@
 ---- Suicide: allows VR players to shoot themselves in the head
 
+-- cvar to disable the suicide feature if it's activating when it's not supposed to
+local tttvr_suicide = CreateConVar("tttvr_suicide", 1, FCVAR_NONE, "Toggle the ability for VR players to suicide with a self-inflicted headshot.")
+
 -- hook for when player shoots a weapon
 hook.Add("EntityFireBullets", "Benny:TTTVR:suicidehook", function(ply, bullet)
-
+	
+	-- prevent it from happening if cvar is off
+	if not tttvr_suicide:GetBool() then return end
+	
 	-- check if the person is in VR
 	if(IsValid(ply) and istable(vrmod)) then
 		if(vrmod.IsPlayerInVR(ply)) then

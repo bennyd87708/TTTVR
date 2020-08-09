@@ -9,7 +9,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - VR versions of TTT HUD elements (radar, traitor traps, etc.)
 - Indicator for player's role at the start of the round
 - Gun muzzle position and melee weapon fixes
-- Ability to suicide with headshot like in Pavlov VR
+- Ability to suicide with headshot like in Pavlov VR (toggleable with tttvr_suicide cvar)
 - Can physically pickup weapons with hands while holstered
 
 ## To-Do ##
@@ -24,6 +24,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 
 - Player's camera is frequently in the wrong world position during setup time
 - Target ID menus linger after target dies
+- Right hand has weird problems in spectator mode if player dies while holstered
 - HUD elements z-order incorrectly causing trippy overlap
 - C4 throws sideways from hand
 - Mac-10 shoots super sideways
