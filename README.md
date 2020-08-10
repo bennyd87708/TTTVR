@@ -29,6 +29,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - C4 throws sideways from hand
 - Mac-10 shoots super sideways
 - Traitor trap hands sometimes scale incorrectly
+- Spectator warning doesn't work on the first offense
 - Held magneto stick props rarely gain huge velocity
 - Have to double click the buy menu tabs to switch between them
 - Muzzle flashes come from world model position rather than view model position

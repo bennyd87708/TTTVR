@@ -16,9 +16,25 @@ if SERVER then
 else
 	
 	-- player technically exits VR the frame that they die so we have to manually track if they were in VR when they died
+	-- death is true if they are only not in VR because they have died and not respawned as a spectator yet
+	-- inVR is the same as vrmod.IsPlayerInVR but stays true for one extra frame after death so we can catch if they were in VR when they died
 	local inVR = false
-	hook.Add("VRMod_Start","Benny:TTTVR:clientvrstarthook", function()
+	local death = false
+	hook.Add("VRMod_Start","Benny:TTTVR:clientvrstarthook", function(ply)
 		inVR = true
+		if death then
+			if not (ply:IsSpec()) then
+				death = false
+			end
+		else
+			
+			-- if the player tried to enter VR while in spectator mode, send warning
+			-- vrmod_start isn't called the first time they try this unfortunately so it won't always catch it
+			if(ply:IsSpec()) then
+				ply:ConCommand("vrmod_exit")
+				chat.AddText(Color(255, 0, 0), "YOU MUST BE ALIVE TO ENTER VR!")
+			end
+		end
 	end)
 	hook.Add("VRMod_Exit","Benny:TTTVR:clientvrexithook", function()
 		timer.Simple(0, function()
@@ -36,6 +52,7 @@ else
 		-- need to check if the player is in VR on death because we are overwriting the default net receive for this message
 		-- luckily it doesn't do much, so it's really easy to handle ourselves below
 		if(istable(vrmod) and inVR) then
+			death = true
 			
 			-- VRMod uses one hook for each eye when editing the view so we have one of each here
 			hook.Add("VRMod_PreRender", "Benny:TTTVR:ragdollinglefthook", function()
