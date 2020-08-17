@@ -15,7 +15,7 @@ If you use a different controller and want to help me setup defaults, please add
 
 [h1] Features [/h1]
 [list]
-	[*]Default TTT GUI ports (weapon select, buy menu, round info, etc.)
+	[*]Default TTT GUI ports (weapon select, buy menu, scoreboard, etc.)
 	[*]VR versions of TTT HUD elements (radar, traitor traps, etc.)
 	[*]Indicator for player's role at the start of the round
 	[*]Gun muzzle position and melee weapon fixes
@@ -27,7 +27,7 @@ If you use a different controller and want to help me setup defaults, please add
 [list]
 	[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]Client UI for health, timer, and role during round[/url]
 	[*]Fix CSS weapon viewmodels so weapons have backsides
-	[*]DNA Scanner and Scoreboard UIs
+	[*]DNA Scanner and other obscure weapons
 	[*]Game status messages and many other similar UI elements
 	[*]Sync TTT Hitboxes with the VRMod player's model
 [/list]

@@ -154,3 +154,46 @@ function TTTVR_WeaponSwitchMenu(ply, State)
 		end
 	end
 end
+
+-- open or close the scoreboard UI
+function TTTVR_ScoreboardMenu(ply, State, hand)
+	hand = hand or 2
+	
+	if(State) then
+		
+		-- open the menu if the button is pressed
+		TTTVRScoreboardMenuOpen(hand)
+	else
+	
+		-- when the button is let go, close the menu 
+		if vrmod.MenuExists("Benny:TTTVR:scoreboardmenu") then
+			vrmod.MenuClose("Benny:TTTVR:scoreboardmenu")
+		end
+	end
+end
+
+-- function that combines buy menu, round info, and scoreboard into one button where one action is to press and another is to hold, useful for controllers with few physical buttons
+-- should improve functionality and versatility eventually
+function TTTVR_ScoreboardAndBuyMenu(ply, State)	
+	if State then
+		
+		-- open the scoreboard on press
+		TTTVR_ScoreboardMenu(ply, true, 1)
+		
+		-- if the player has the ability to open the buy menu or round info, wait 3 seconds to see if they are still holding the button
+		if GetRoundState() == ROUND_ACTIVE and not (ply:GetTraitor() or ply:GetDetective()) then return end
+		timer.Create("scoreboardandbuymenutimer", 3, 1, function()
+		
+			-- if they held for 3 seconds, close the scoreboard and toggle the buy menu or round info
+			TTTVR_ScoreboardMenu(ply, false)
+			TTTVR_BuyMenuAndRoundInfo(ply, true)
+		end)
+	else
+		
+		-- on let go, close the scoreboard and stop the timer checking if they were holding down
+		TTTVR_ScoreboardMenu(ply, false)
+		if timer.Exists("scoreboardandbuymenutimer") then
+			timer.Remove("scoreboardandbuymenutimer")
+		end
+	end
+end

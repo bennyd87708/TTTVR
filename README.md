@@ -5,7 +5,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 
 ## Features ##
 
-- Default TTT GUI ports (weapon select, buy menu, round info, etc.)
+- Default TTT GUI ports (weapon select, buy menu, scoreboard, etc.)
 - VR versions of TTT HUD elements (radar, traitor traps, etc.)
 - Indicator for player's role at the start of the round
 - Gun muzzle position and melee weapon fixes
@@ -16,7 +16,7 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 
 - Client UI for health, haste timer, role, and radar timer during round (use [j2b2's VRMod HUD addon](https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124) for now)
 - Fix CSS weapon viewmodels so weapons have backsides
-- DNA Scanner and Scoreboard UIs
+- DNA Scanner and other obscure weapons
 - Game status messages and many other similar UI elements
 - Sync TTT Hitboxes with the VRMod player's model
 

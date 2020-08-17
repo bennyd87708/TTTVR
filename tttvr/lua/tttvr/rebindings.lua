@@ -9,21 +9,22 @@ local vive_controls = {
 	["boolean_jump"]			= TTTVR_Jump,
 	["boolean_left_pickup"]		= TTTVR_VoiceRecord,
 	["boolean_secondaryfire"]	= TTTVR_DropWeapon,
-	["boolean_chat"]			= TTTVR_BuyMenuAndRoundInfo,
+	["boolean_chat"]			= TTTVR_ScoreboardAndBuyMenu,
 	["boolean_changeweapon"]	= TTTVR_WeaponSwitchMenu
 }
 
 -- default controls for the valve knuckles controllers
 local index_controls = {
 	["boolean_primaryfire"] 	= TTTVR_PrimaryFire,
-	["boolean_jump"] 			= TTTVR_SecondaryFire,
+	["boolean_flashlight"] 		= TTTVR_SecondaryFire,
 	["boolean_use"]				= TTTVR_Use,
 	["boolean_left_pickup"]		= TTTVR_Reload,
 	["boolean_undo"]			= TTTVR_Jump,
 	["boolean_chat"]			= TTTVR_VoiceRecord,
 	["boolean_secondaryfire"]	= TTTVR_DropWeapon,
 	["boolean_reload"]			= TTTVR_BuyMenuAndRoundInfo,
-	["boolean_changeweapon"]	= TTTVR_WeaponSwitchMenu
+	["boolean_changeweapon"]	= TTTVR_WeaponSwitchMenu,
+	["boolean_jump"]			= TTTVR_ScoreboardMenu
 }
 
 -- convert DeviceName to control scheme
