@@ -12,6 +12,7 @@ AddCSLuaFile "muzzleoffset.lua"
 AddCSLuaFile "roleui.lua"
 AddCSLuaFile "searchui.lua"
 AddCSLuaFile "spectator.lua"
+AddCSLuaFile "scoreboardui.lua"
 AddCSLuaFile "cl_init.lua"
 
 -- runs serverside scripts

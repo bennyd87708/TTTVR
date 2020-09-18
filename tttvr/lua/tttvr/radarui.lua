@@ -22,6 +22,7 @@ local tidScale = 0.001
 -- variables needed for tracking where the player is looking and how far away they are
 local MAX_TRACE_LENGTH = math.sqrt(3) * 2 * 16384
 local mindistance = 84
+local minsquared = mindistance*mindistance
 local minfrac = mindistance/MAX_TRACE_LENGTH
 
 -- keep track of focused target so we can close the menu when there is none and +use the right target in actions.lua

@@ -2,7 +2,7 @@
 AddCSLuaFile()
 
 -- settings for the average TTTVR weapon
-SWEP.Spawnable = true
+SWEP.Spawnable = false
 SWEP.AllowDrop = true
 SWEP.InLoadoutFor = {}
 SWEP.WeaponID = nil

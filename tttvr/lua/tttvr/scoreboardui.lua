@@ -9,7 +9,7 @@ function TTTVRScoreboardMenuOpen(hand)
 	GAMEMODE:ScoreboardShow()
 	
 	-- create a VRMod panel attached to the right hand
-	-- the panel isnt positioned at 0,0 so we just make the panel really big, might break on a 4k screen?
+	-- the panel isnt positioned at 0,0 so we just make the panel really big, right end gets cut off if running in 4k
 	vrmod.MenuCreate("Benny:TTTVR:scoreboardmenu", 1920, 1080, nil, hand, Vector(10,32,13), Angle(0,-90,50), 0.03, false, function()
 		
 		-- when the menu is closed, hide the scoreboard and stop painting the panel

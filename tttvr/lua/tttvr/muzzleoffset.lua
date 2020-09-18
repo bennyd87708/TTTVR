@@ -13,12 +13,11 @@ hook.Add("VRUtilStart", "Benny:TTTVR:clientaimstarthook", function(ply)
 		if not (LocalPlayer():GetActiveWeapon().Category == "TTTVR") then return end
 		
 		-- when they are holding one, fix the VRMod globals every frame with the proper muzzle position and angle before they actually get used
-		local pos,ang = g_VR.viewModelPos, g_VR.viewModelAng
 		if(g_VR.viewModelMuzzle) then
 			
 			-- adjust the muzzle position by the global offset variable
+			local pos,ang = g_VR.viewModelPos, g_VR.viewModelAng
 			g_VR.viewModelMuzzle.Pos = pos + (ang:Forward()*TTTVRCurrentMuzzleOffset.x + ang:Right()*TTTVRCurrentMuzzleOffset.y + ang:Up()*TTTVRCurrentMuzzleOffset.z)
-			g_VR.viewModelMuzzle.Ang = ang
 		end
 	end)
 end)

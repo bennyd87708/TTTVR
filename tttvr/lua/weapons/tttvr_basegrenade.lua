@@ -1,7 +1,7 @@
 ---- TTTVR Base Grenade: has SWEP functions/variables that should apply to all TTTVR grenades
 AddCSLuaFile()
 
-SWEP.Spawnable = true
+SWEP.Spawnable = false
 SWEP.AllowDrop = true
 SWEP.InLoadoutFor = {}
 SWEP.WeaponID = nil

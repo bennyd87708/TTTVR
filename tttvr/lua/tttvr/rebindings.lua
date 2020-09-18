@@ -10,7 +10,8 @@ local vive_controls = {
 	["boolean_left_pickup"]		= TTTVR_VoiceRecord,
 	["boolean_secondaryfire"]	= TTTVR_DropWeapon,
 	["boolean_chat"]			= TTTVR_ScoreboardAndBuyMenu,
-	["boolean_changeweapon"]	= TTTVR_WeaponSwitchMenu
+	["boolean_changeweapon"]	= TTTVR_WeaponSwitchMenu,
+	["boolean_contextmenu"]		= TTTVR_ScoreboardMenu
 }
 
 -- default controls for the valve knuckles controllers
@@ -38,9 +39,13 @@ TTTVR_Controls = vive_controls
 
 -- on enter VR, check what controllers the player is using and change the control scheme if we have one
 hook.Add("VRMod_Start", "Benny:TTTVR:initializecontrollerbinds", function()
-	local devices = VRMOD_GetTrackedDeviceNames()
+	if not vrmod.IsPlayerInVR(LocalPlayer()) then return end
+	local devices = vrmod.GetTrackedDeviceNames()
+	if not devices then
+		--print("TTTVR didn't recognize your controllers and is defaulting to the Vive controller scheme.")
+		return
+	end
 	if controllers[devices[2]] then
-		-- death temporarily exits and re-enters vr so we don't want to spam the console
 		--print("TTTVR has detected "..devices[2].." controllers.")
 		TTTVR_Controls = controllers[devices[2]]
 	else
