@@ -1,21 +1,7 @@
 ---- Weapon Replacer: Replace regular weapons with VR variants for VR users
 
--- global keeps track of what TTT weapons are replaced by what VR variants - maybe add some kind of config file?
+-- global keeps track of what TTT weapons are replaced by what VR variants, added in each weapon script
 TTTVRWeaponReplacements = {}
-TTTVRWeaponReplacements["weapon_zm_improvised"] =		"tttvr_crowbar"
-TTTVRWeaponReplacements["weapon_zm_revolver"] = 		"tttvr_deagle"
-TTTVRWeaponReplacements["weapon_ttt_glock"] = 			"tttvr_glock"
-TTTVRWeaponReplacements["weapon_ttt_unarmed"] = 		"tttvr_holstered"
-TTTVRWeaponReplacements["weapon_zm_sledge"] = 			"tttvr_huge"
-TTTVRWeaponReplacements["weapon_ttt_m16"] = 			"tttvr_m16"
-TTTVRWeaponReplacements["weapon_zm_mac10"] = 			"tttvr_mac10"
-TTTVRWeaponReplacements["weapon_zm_carry"] = 			"tttvr_magnetostick"
-TTTVRWeaponReplacements["weapon_zm_pistol"] = 			"tttvr_pistol"
-TTTVRWeaponReplacements["weapon_zm_rifle"] = 			"tttvr_rifle"
-TTTVRWeaponReplacements["weapon_zm_shotgun"] =			"tttvr_shotgun"
-TTTVRWeaponReplacements["weapon_ttt_smokegrenade"] =	"tttvr_smoke"
-TTTVRWeaponReplacements["weapon_ttt_confgrenade"] =		"tttvr_discombobulator"
-TTTVRWeaponReplacements["weapon_zm_molotov"] =			"tttvr_incendiary"
 
 -- reverse table lookup so we can search in both directions (get key from value)
 function getTTTVROriginalWeapon(vrgun)

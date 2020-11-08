@@ -11,3 +11,10 @@ include("tttvr_base.lua")
 function SWEP:SetMuzzleOffset()
 	TTTVRCurrentMuzzleOffset = Vector(43, 6, -4.6)
 end
+
+-- add table entry to the global list of weapon replacements
+if SERVER then
+	hook.Add("TTTVR:Initialize", "Benny:TTTVR:Initialization:huge", function()
+		TTTVRWeaponReplacements["weapon_zm_sledge"] = "tttvr_huge"
+	end)
+end

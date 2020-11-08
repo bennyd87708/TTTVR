@@ -47,3 +47,10 @@ function SWEP:SecondaryAttack() return end
 SWEP.AmmoEnt = "item_ammo_357_ttt"
 SWEP.Icon = "vgui/ttt/icon_scout"
 SWEP.PrintName = "rifle_name"
+
+-- add table entry to the global list of weapon replacements
+if SERVER then
+	hook.Add("TTTVR:Initialize", "Benny:TTTVR:Initialization:rifle", function()
+		TTTVRWeaponReplacements["weapon_zm_rifle"] = "tttvr_rifle"
+	end)
+end

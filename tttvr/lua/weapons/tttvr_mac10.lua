@@ -17,3 +17,10 @@ end
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 SWEP.Icon = "vgui/ttt/icon_mac"
 SWEP.PrintName = "MAC10"
+
+-- add table entry to the global list of weapon replacements
+if SERVER then
+	hook.Add("TTTVR:Initialize", "Benny:TTTVR:Initialization:mac10", function()
+		TTTVRWeaponReplacements["weapon_zm_mac10"] = "tttvr_mac10"
+	end)
+end

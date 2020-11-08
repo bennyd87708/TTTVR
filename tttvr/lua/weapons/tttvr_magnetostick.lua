@@ -591,3 +591,10 @@ end
 function SWEP:OnDrop()
 	self:Remove()
 end
+
+-- add table entry to the global list of weapon replacements
+if SERVER then
+	hook.Add("TTTVR:Initialize", "Benny:TTTVR:Initialization:magnetostick", function()
+		TTTVRWeaponReplacements["weapon_zm_carry"] = "tttvr_magnetostick"
+	end)
+end

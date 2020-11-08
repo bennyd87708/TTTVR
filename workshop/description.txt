@@ -37,3 +37,6 @@ I put a lot of work into this, so seeing you guys actually use it is awesome! If
 
 [h1] Development [/h1]
 If anyone wants to help by contributing code, reporting bugs, or suggesting features, I've made a [url=https://github.com/bennyd87708/TTT-VR]GitHub repo[/url] for the project (or feel free to comment, start a discussion, or add me here on Steam).
+
+If you want to make you own custom TTT VR weapons, check out this guide:
+https://steamcommunity.com/sharedfiles/filedetails/?id=2280462285

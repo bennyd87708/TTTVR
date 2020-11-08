@@ -10,6 +10,7 @@ hook.Add("Initialize", "Benny:TTTVR:Initialization", function()
 			-- runs client initialization
 			include "tttvr/cl_init.lua"
 		end
+		hook.Run("TTTVR:Initialize")
 		print("TTT VR LOADED")
 	end
 end)

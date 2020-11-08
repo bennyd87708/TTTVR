@@ -20,3 +20,9 @@ function SWEP:Deploy()
 	self:SetMuzzleOffset()
 end
 
+-- add table entry to the global list of weapon replacements
+if SERVER then
+	hook.Add("TTTVR:Initialize", "Benny:TTTVR:Initialization:crowbar", function()
+		TTTVRWeaponReplacements["weapon_zm_improvised"] = "tttvr_crowbar"
+	end)
+end

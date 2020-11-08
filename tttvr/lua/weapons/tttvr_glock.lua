@@ -16,3 +16,10 @@ end
 SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 SWEP.Icon = "vgui/ttt/icon_glock"
 SWEP.PrintName = "Glock"
+
+-- add table entry to the global list of weapon replacements
+if SERVER then
+	hook.Add("TTTVR:Initialize", "Benny:TTTVR:Initialization:glock", function()
+		TTTVRWeaponReplacements["weapon_ttt_glock"] = "tttvr_glock"
+	end)
+end

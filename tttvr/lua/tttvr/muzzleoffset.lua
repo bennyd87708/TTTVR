@@ -27,13 +27,15 @@ hook.Add("VRUtilExit", "Benny:TTTVR:clientaimkillhook", function(ply)
 	hook.Remove("DrawMonitors", "Benny:TTTVR:updatemuzzleoffset")
 end)
 
---[[ Debug hook to draw the muzzle location and laser pointer on weapons to help manually setting each muzzle offset
+-- cvar to toggle debug laser pointer on gun
+local tttvr_laser = CreateConVar("tttvr_laser", 0, FCVAR_CHEAT, "Toggles the debug laser on the muzzle of your VR weapon.")
+
+-- Debug hook to draw the muzzle location and laser pointer on weapons to help manually setting each muzzle offset
 hook.Add("PostDrawViewModel", "Benny:TTTVR:muzzledebughook", function()
 	--print(LocalPlayer():GetActiveWeapon())
 	
-	if(not (g_VR.viewModelMuzzle)) then return end
+	if(not (tttvr_laser:GetBool() and g_VR.viewModelMuzzle)) then return end
 	render.SetMaterial(Material("cable/redlaser"))
 	render.DrawBeam(g_VR.viewModelMuzzle.Pos, g_VR.viewModelMuzzle.Pos + g_VR.viewModelMuzzle.Ang:Forward()*10000, 1, 0, 1, Color(255,255,255,255))
 	render.DrawWireframeBox(g_VR.viewModelMuzzle.Pos, g_VR.viewModelMuzzle.Ang, Vector(-0.5, -0.5, -0.5), Vector(0.5, 0.5, 0.5), Color(0, 255, 0), true)
 end)
---]]
