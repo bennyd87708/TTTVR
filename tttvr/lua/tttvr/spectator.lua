@@ -30,7 +30,7 @@ else
 			else
 
 				-- if the player tried to enter VR while in spectator mode, send warning
-				-- vrmod_start isn't called the first time they try this unfortunately so it won't always catch it
+				-- vrmod_start isn't called the first time they try this so there is an extra one-time hook below
 				if(ply:IsSpec()) then
 					ply:ConCommand("vrmod_exit")
 					chat.AddText(Color(255, 0, 0), "YOU MUST BE ALIVE TO ENTER VR!")
@@ -43,6 +43,17 @@ else
 			timer.Simple(0, function()
 				inVR = false
 			end)
+		end
+	end)
+	
+	-- catches the first time the player tries to enter VR while in spectator mode
+	hook.Add("VRMod_Tracking","Benny:TTTVR:spectatorfirstcatchhook",function()
+		local ply = LocalPlayer()
+		if ply:Alive() then hook.Remove("VRMod_Tracking","Benny:TTTVR:spectatorfirstcatchhook") end
+		if(ply:IsSpec() and not death) then
+			ply:ConCommand("vrmod_exit")
+			chat.AddText(Color(255, 0, 0), "YOU MUST BE ALIVE TO ENTER VR!")
+			hook.Remove("VRMod_Tracking","Benny:TTTVR:spectatorfirstcatchhook")
 		end
 	end)
 	

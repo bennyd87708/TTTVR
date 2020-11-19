@@ -30,7 +30,6 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 - HUD elements z-order incorrectly causing trippy overlap
 - C4 throws sideways from hand
 - Traitor trap hands sometimes scale incorrectly
-- Spectator warning doesn't work on the first offense
 - Held magneto stick props rarely gain huge velocity
 - Have to double click the buy menu tabs to switch between them
 - Muzzle flashes come from world model position rather than view model position
