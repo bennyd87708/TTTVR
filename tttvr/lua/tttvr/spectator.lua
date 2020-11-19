@@ -21,25 +21,40 @@ else
 	local inVR = false
 	local death = false
 	hook.Add("VRMod_Start","Benny:TTTVR:clientvrstarthook", function(ply)
-		inVR = true
-		if death then
-			if not (ply:IsSpec()) then
-				death = false
-			end
-		else
-			
-			-- if the player tried to enter VR while in spectator mode, send warning
-			-- vrmod_start isn't called the first time they try this unfortunately so it won't always catch it
-			if(ply:IsSpec()) then
-				ply:ConCommand("vrmod_exit")
-				chat.AddText(Color(255, 0, 0), "YOU MUST BE ALIVE TO ENTER VR!")
+		if ply == LocalPlayer() then
+			inVR = true
+			if death then
+				if not (ply:IsSpec()) then
+					death = false
+				end
+			else
+
+				-- if the player tried to enter VR while in spectator mode, send warning
+				-- vrmod_start isn't called the first time they try this so there is an extra one-time hook below
+				if(ply:IsSpec()) then
+					ply:ConCommand("vrmod_exit")
+					chat.AddText(Color(255, 0, 0), "YOU MUST BE ALIVE TO ENTER VR!")
+				end
 			end
 		end
 	end)
-	hook.Add("VRMod_Exit","Benny:TTTVR:clientvrexithook", function()
-		timer.Simple(0, function()
-			inVR = false
-		end)
+	hook.Add("VRMod_Exit","Benny:TTTVR:clientvrexithook", function(ply)
+		if ply == LocalPlayer() then
+			timer.Simple(0, function()
+				inVR = false
+			end)
+		end
+	end)
+	
+	-- catches the first time the player tries to enter VR while in spectator mode
+	hook.Add("VRMod_Tracking","Benny:TTTVR:spectatorfirstcatchhook",function()
+		local ply = LocalPlayer()
+		if ply:Alive() then hook.Remove("VRMod_Tracking","Benny:TTTVR:spectatorfirstcatchhook") end
+		if(ply:IsSpec() and not death) then
+			ply:ConCommand("vrmod_exit")
+			chat.AddText(Color(255, 0, 0), "YOU MUST BE ALIVE TO ENTER VR!")
+			hook.Remove("VRMod_Tracking","Benny:TTTVR:spectatorfirstcatchhook")
+		end
 	end)
 	
 	-- function runs on client when the player dies to force the camera to follow the ragdoll's POV 
