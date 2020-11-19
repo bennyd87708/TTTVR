@@ -157,7 +157,7 @@ end
 
 -- open or close the scoreboard UI
 function TTTVR_ScoreboardMenu(ply, State, hand)
-	hand = hand or 2
+	hand = hand or 1
 	
 	if(State) then
 		

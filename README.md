@@ -23,7 +23,6 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 ## Bugs ##
 
 - Can get kicked out of vr at the end of the round
-- Scoreboard doesn't work right in desktop resolutions other than 1080p
 - Player's camera is frequently in the wrong world position during setup time
 - Target ID menus linger after target dies
 - Right hand has weird problems in spectator mode if player dies while holstered
