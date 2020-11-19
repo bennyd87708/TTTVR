@@ -20,12 +20,12 @@ local index_controls = {
 	["boolean_flashlight"] 		= TTTVR_SecondaryFire,
 	["boolean_use"]				= TTTVR_Use,
 	["boolean_left_pickup"]		= TTTVR_Reload,
-	["boolean_undo"]			= TTTVR_Jump,
+	["boolean_undo"]			= TTTVR_ScoreboardMenu,
 	["boolean_chat"]			= TTTVR_VoiceRecord,
 	["boolean_secondaryfire"]	= TTTVR_DropWeapon,
 	["boolean_reload"]			= TTTVR_BuyMenuAndRoundInfo,
 	["boolean_changeweapon"]	= TTTVR_WeaponSwitchMenu,
-	["boolean_jump"]			= TTTVR_ScoreboardMenu
+	["boolean_jump"]			= TTTVR_Jump
 }
 
 -- convert DeviceName to control scheme
