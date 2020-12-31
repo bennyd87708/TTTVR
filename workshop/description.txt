@@ -10,6 +10,7 @@ Make sure that you have the LATEST VRMod module files! Then make sure VR users a
 Default controller bindings are included for the following controllers:
 -[url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls_vive.png]HTC Vive[/url]
 -[url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls_index.png]Valve Index/Knuckles[/url]
+-[url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls_oculus.png]Oculus Touch[/url]
 You can view and edit the bindings using SteamVR's binding editor while in GMOD VR.
 If you use a different controller and want to help me setup defaults, please add me on Steam!
 
