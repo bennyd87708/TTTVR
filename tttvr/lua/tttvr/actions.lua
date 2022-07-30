@@ -92,7 +92,11 @@ end
 
 -- voice chat
 function TTTVR_VoiceRecord(ply, State)
-	ply:ConCommand(State and "+voicerecord" or "-voicerecord")
+	if State then
+		permissions.EnableVoiceChat(true)
+	else
+		permissions.EnableVoiceChat(false)
+	end
 end
 
 --[[ bind traitor voice chat to when left trigger clicks all the way - not a feature yet
