@@ -15,25 +15,23 @@ A Garry's Mod addon bringing VR support to TTT using VRMod.
 ## To-Do ##
 
 - Client UI for health, haste timer, role, and radar timer during round (use [j2b2's VRMod HUD addon](https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124) for now)
-- Fix CSS weapon viewmodels so weapons have backsides
-- DNA Scanner and other obscure weapons
-- Game status messages and many other similar UI elements
-- Sync TTT Hitboxes with the VRMod player's model
+- Fix CSS weapon viewmodels so weapons have backsides (looking for expert help regarding source engine quirks)
+- Other obscure weapons (DNA Scanner, some traitor weapons, etc.)
+- Game status messages
+- Sync TTT Hitboxes with the VRMod player's model (might be impossible, will try to ask Catse eventually)
 
 ## Bugs ##
 
 - Can get kicked out of vr at the end of the round
 - Player's camera is frequently in the wrong world position during setup time
-- Target ID menus linger after target dies
-- Right hand has weird problems in spectator mode if player dies while holstered
-- HUD elements z-order incorrectly causing trippy overlap
-- C4 throws sideways from hand
-- Traitor trap hands sometimes scale incorrectly
-- Held magneto stick props rarely gain huge velocity
+- Target ID menus can linger after targetted player dies
+- Right hand inverted in spectator mode if player dies while holstered
+- HUD elements z-order incorrectly
+- C4 drops sideways from hand
+- Traitor trap hands sometimes appear massive (has not been replicated)
+- Magneto stick props occasionally gain huge velocity
 - Have to double click the buy menu tabs to switch between them
-- Muzzle flashes come from world model position rather than view model position
-- Throwing a VR grenade can rarely cause server crash - might be an addon conflict, hard to recreate
-- Swinging the VR crowbar can rarely force weapon switch - might be an addon conflict, hard to recreate
+- Muzzle flashes come from world model position rather than view model position (need to check if this is only for the player in VR or for everyone)
 
 ## FAQ ##
 
