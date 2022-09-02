@@ -4,7 +4,7 @@ Pavlov VR is great, but what if your friends don't all have VR?
 This is currently a simple addon with the goal of bringing compatibility between GMOD's built-in TTT gamemode and Catse's [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1678408548]VRMod addon[/url] through UI ports, VR weapon replacements, and other fun features.
 
 [h1] Usage [/h1]
-Make sure that you have the LATEST VRMod module files! Then make sure VR users and the server all have Catse's VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It will error if you are in spectator mode!). To return to normal, type vrmod_exit in console.
+Make sure that you have the LATEST VRMod module files! Then make sure VR users and the server all have Catse's VRMod addon and this addon, and once you are in-game, type vrmod_start into console (It will error if you are in spectator mode!). To return to normal, type vrmod_exit in console. You may also wish to enable the tttvr_suicide cvar in console which allows you to shoot yourself in the head to suicide. It has been disabled by default due to several reports of it triggering when suicide was not intended.
 
 [h1] Controls [/h1]
 Default controller bindings are included for the following controllers:
@@ -12,7 +12,7 @@ Default controller bindings are included for the following controllers:
 -[url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls_index.png]Valve Index/Knuckles[/url]
 -[url=https://raw.githubusercontent.com/bennyd87708/TTTVR/master/workshop/pictures/controls_oculus.png]Oculus Touch[/url]
 You can view and edit the bindings using SteamVR's binding editor while in GMOD VR.
-If you use a different controller and want to help me setup defaults, please add me on Steam!
+If you use a different controller and want to help me setup defaults, please add me on Steam! (thanks Scienziatopazzo!)
 
 [h1] Features [/h1]
 [list]
@@ -27,10 +27,10 @@ If you use a different controller and want to help me setup defaults, please add
 [h1] To-Do [/h1]
 [list]
 	[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=1937891124]Client UI for health, timer, and role during round[/url]
-	[*]Fix CSS weapon viewmodels so weapons have backsides
-	[*]DNA Scanner and other obscure weapons
-	[*]Game status messages and many other similar UI elements
-	[*]Sync TTT Hitboxes with the VRMod player's model
+	[*]Fix CSS weapon viewmodels so weapons have backsides (looking for expert help regarding source engine quirks)
+	[*]Other obscure weapons (DNA Scanner, some traitor weapons, etc.)
+	[*]Game status messages
+	[*]Sync TTT Hitboxes with the VRMod player's model (might be impossible, will try to ask Catse eventually)
 [/list]
 
 [h1] Thank you! [/h1]
