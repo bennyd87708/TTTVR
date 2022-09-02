@@ -1,7 +1,9 @@
 ---- Suicide: allows VR players to shoot themselves in the head
 
 -- cvar to disable the suicide feature if it's activating when it's not supposed to
-local tttvr_suicide = CreateConVar("tttvr_suicide", 1, FCVAR_NONE, "Toggle the ability for VR players to suicide with a self-inflicted headshot.")
+-- disabled by default due to several reports of misbehavior in detecting when a shot is actually a self-inflicted headshot
+-- I believe that this may be the result of some GMOD player models having exceedingly large head hitboxes (i.e. Left Shark)
+local tttvr_suicide = CreateConVar("tttvr_suicide", 0, FCVAR_NONE, "Toggle the ability for VR players to suicide with a self-inflicted headshot.")
 
 -- hook for when player shoots a weapon
 hook.Add("EntityFireBullets", "Benny:TTTVR:suicidehook", function(ply, bullet)
