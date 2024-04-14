@@ -1,6 +1,9 @@
 ---- TTTVR H.U.G.E. 249: defines the VR variant of the TTT HUGE
 AddCSLuaFile()
 
+-- stop annoying errors
+if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
+
 -- base it off of the original
 SWEP.Base = "weapon_zm_sledge"
 

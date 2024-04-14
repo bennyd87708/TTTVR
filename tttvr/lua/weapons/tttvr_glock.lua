@@ -1,6 +1,9 @@
 ---- TTTVR Glock: defines the VR variant of the TTT glock
 AddCSLuaFile()
 
+-- stop annoying errors
+if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
+
 -- base it off of the original
 SWEP.Base = "weapon_ttt_glock"
 

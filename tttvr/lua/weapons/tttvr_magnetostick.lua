@@ -1,6 +1,9 @@
 ---- TTTVR Magneto Stick: defines the VR variant of the TTT Magneto Stick
 AddCSLuaFile()
 
+-- stop annoying errors
+if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
+
 -- add the changes that apply to every VR variant weapon from tttvr_base
 include("tttvr_base.lua")
 

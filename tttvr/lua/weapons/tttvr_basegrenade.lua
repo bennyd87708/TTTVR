@@ -1,6 +1,9 @@
 ---- TTTVR Base Grenade: has SWEP functions/variables that should apply to all TTTVR grenades
 AddCSLuaFile()
 
+-- stop annoying errors
+if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
+
 SWEP.Spawnable = false
 SWEP.AllowDrop = true
 SWEP.InLoadoutFor = {}

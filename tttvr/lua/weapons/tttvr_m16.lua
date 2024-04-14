@@ -1,6 +1,9 @@
 ---- TTTVR M16: defines the VR variant of the TTT M16
 AddCSLuaFile()
 
+-- stop annoying errors
+if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
+
 -- base it off of the original
 SWEP.Base = "weapon_ttt_m16"
 

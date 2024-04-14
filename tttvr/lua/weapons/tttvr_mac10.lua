@@ -1,6 +1,9 @@
 ---- TTTVR Mac-10: defines the VR variant of the TTT Mac-10
 AddCSLuaFile()
 
+-- stop annoying errors
+if(gmod.GetGamemode().Name ~= "Trouble in Terrorist Town") then return end
+
 -- base it off of the original
 SWEP.Base = "weapon_zm_mac10"
 
